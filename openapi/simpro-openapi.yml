@@ -1,0 +1,1543 @@
+openapi: 3.0.3
+info:
+  title: Simpro REST API
+  description: >-
+    The Simpro (simPRO) REST API v1.0 provides a RESTful interface to view,
+    create, and modify resources on a Simpro Premium build - the field service,
+    trade, and project management platform. The API is hosted on each customer's
+    own build, so the host is per-build (for example
+    https://your-build.simprosuite.com) and requests are authenticated with an
+    OAuth2 Bearer access token issued by that same build's /oauth2/token
+    endpoint. Most resources are nested under a company:
+    /api/v1.0/companies/{companyID}/... where companyID is 0 on single-company
+    builds. This document models a representative, commonly used subset of the
+    API - companies, customers, sites, jobs, quotes, invoices, schedules,
+    vendor orders, cost centers, stock, and webhook subscriptions. The full
+    published API covers 300+ resource types. Endpoint paths, HTTP methods, the
+    common list/search query parameters, and the confirmed list/read response
+    fields are grounded in Simpro's published API reference; request bodies for
+    create/update are modeled minimally and marked as such, because the real
+    payloads are large and build-configuration dependent.
+  version: '1.0'
+  contact:
+    name: Simpro Developer Center
+    url: https://developer.simprogroup.com/
+  x-access-model: >-
+    Not a shared public API. Access requires an existing Simpro Premium
+    subscription and API access enabled on that build; OAuth2 client
+    credentials are provisioned per build by the account administrator. Base
+    host is the customer's own build subdomain, not a single global endpoint.
+servers:
+  - url: https://{build}.simprosuite.com/api/v1.0
+    description: Per-build Simpro Premium host. Replace {build} with your build subdomain.
+    variables:
+      build:
+        default: your-build
+        description: >-
+          Your Simpro Premium build subdomain - the same domain you use to log
+          in to the Simpro staff portal (e.g. mycompany in
+          mycompany.simprosuite.com).
+security:
+  - oauth2: []
+tags:
+  - name: Companies
+    description: Company information on the build (multi-company aware).
+  - name: Customers
+    description: Company and individual customers that receive invoices.
+  - name: Sites
+    description: Customer sites and service locations.
+  - name: Jobs
+    description: Job lifecycle - scheduling, stock, assets, forms, and billing.
+  - name: Quotes
+    description: Quote creation and management.
+  - name: Invoices
+    description: Customer invoicing.
+  - name: Schedules
+    description: Resource and staff scheduling records.
+  - name: Vendor Orders
+    description: Purchase orders raised to vendors/suppliers.
+  - name: Cost Centers
+    description: Accounting cost center setup.
+  - name: Stock
+    description: Inventory held on storage devices.
+  - name: Webhooks
+    description: Webhook subscriptions for build event notifications.
+paths:
+  /companies/:
+    get:
+      operationId: listCompanies
+      tags:
+        - Companies
+      summary: List all companies
+      description: Lists the companies available on this build.
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/Columns'
+        - $ref: '#/components/parameters/OrderBy'
+      responses:
+        '200':
+          description: A list of companies.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CompanyListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /companies/{companyID}:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+    get:
+      operationId: getCompany
+      tags:
+        - Companies
+      summary: Retrieve a company
+      description: Retrieves detailed information for a single company.
+      responses:
+        '200':
+          description: The requested company.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CompanyListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /companies/{companyID}/customers/:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+    get:
+      operationId: listCustomers
+      tags:
+        - Customers
+      summary: List all customers
+      description: Lists all customers (both company and individual) for a company.
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/Columns'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/OrderBy'
+        - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: A list of customers.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /companies/{companyID}/customers/companies/:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+    get:
+      operationId: listCompanyCustomers
+      tags:
+        - Customers
+      summary: List company customers
+      description: Lists customers that are companies (organizations).
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: A list of company customers.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createCompanyCustomer
+      tags:
+        - Customers
+      summary: Create a company customer
+      description: >-
+        Creates a new company (organization) customer. NOTE - request body is
+        modeled minimally; see the Simpro API reference for the full schema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerInput'
+      responses:
+        '201':
+          description: The created company customer.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /companies/{companyID}/customers/companies/{customerID}:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+      - $ref: '#/components/parameters/CustomerID'
+    get:
+      operationId: getCompanyCustomer
+      tags:
+        - Customers
+      summary: Retrieve a company customer
+      responses:
+        '200':
+          description: The requested company customer.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateCompanyCustomer
+      tags:
+        - Customers
+      summary: Update a company customer
+      description: 'NOTE - request body is modeled minimally; see the Simpro API reference.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerInput'
+      responses:
+        '200':
+          description: The updated company customer.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteCompanyCustomer
+      tags:
+        - Customers
+      summary: Delete a company customer
+      responses:
+        '204':
+          description: The company customer was deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /companies/{companyID}/customers/individuals/:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+    get:
+      operationId: listIndividualCustomers
+      tags:
+        - Customers
+      summary: List individual customers
+      description: Lists customers that are individuals (people).
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: A list of individual customers.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createIndividualCustomer
+      tags:
+        - Customers
+      summary: Create an individual customer
+      description: 'NOTE - request body is modeled minimally; see the Simpro API reference.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerInput'
+      responses:
+        '201':
+          description: The created individual customer.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /companies/{companyID}/customers/individuals/{customerID}:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+      - $ref: '#/components/parameters/CustomerID'
+    get:
+      operationId: getIndividualCustomer
+      tags:
+        - Customers
+      summary: Retrieve an individual customer
+      responses:
+        '200':
+          description: The requested individual customer.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateIndividualCustomer
+      tags:
+        - Customers
+      summary: Update an individual customer
+      description: 'NOTE - request body is modeled minimally; see the Simpro API reference.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerInput'
+      responses:
+        '200':
+          description: The updated individual customer.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteIndividualCustomer
+      tags:
+        - Customers
+      summary: Delete an individual customer
+      responses:
+        '204':
+          description: The individual customer was deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /companies/{companyID}/sites/:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+    get:
+      operationId: listSites
+      tags:
+        - Sites
+      summary: List all sites
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/OrderBy'
+      responses:
+        '200':
+          description: A list of sites.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SiteListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createSite
+      tags:
+        - Sites
+      summary: Create a site
+      description: 'NOTE - request body is modeled minimally; see the Simpro API reference.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SiteInput'
+      responses:
+        '201':
+          description: The created site.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /companies/{companyID}/sites/{siteID}:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+      - $ref: '#/components/parameters/SiteID'
+    get:
+      operationId: getSite
+      tags:
+        - Sites
+      summary: Retrieve a site
+      responses:
+        '200':
+          description: The requested site.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateSite
+      tags:
+        - Sites
+      summary: Update a site
+      description: 'NOTE - request body is modeled minimally; see the Simpro API reference.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SiteInput'
+      responses:
+        '200':
+          description: The updated site.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteSite
+      tags:
+        - Sites
+      summary: Delete a site
+      responses:
+        '204':
+          description: The site was deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /companies/{companyID}/jobs/:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+    get:
+      operationId: listJobs
+      tags:
+        - Jobs
+      summary: List all jobs
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/Columns'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/OrderBy'
+        - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: A list of jobs.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/JobListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createJob
+      tags:
+        - Jobs
+      summary: Create a job
+      description: >-
+        Creates a job. NOTE - request body is modeled minimally (CustomerID,
+        SiteID, Description); see the Simpro API reference for the full schema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobInput'
+      responses:
+        '201':
+          description: The created job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /companies/{companyID}/jobs/{jobID}:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+      - $ref: '#/components/parameters/JobID'
+    get:
+      operationId: getJob
+      tags:
+        - Jobs
+      summary: Retrieve a job
+      responses:
+        '200':
+          description: The requested job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateJob
+      tags:
+        - Jobs
+      summary: Update a job
+      description: 'NOTE - request body is modeled minimally; see the Simpro API reference.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/JobInput'
+      responses:
+        '200':
+          description: The updated job.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/JobListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteJob
+      tags:
+        - Jobs
+      summary: Delete a job
+      responses:
+        '204':
+          description: The job was deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /companies/{companyID}/quotes/:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+    get:
+      operationId: listQuotes
+      tags:
+        - Quotes
+      summary: List all quotes
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/OrderBy'
+      responses:
+        '200':
+          description: A list of quotes.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/QuoteListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createQuote
+      tags:
+        - Quotes
+      summary: Create a quote
+      description: 'NOTE - request body is modeled minimally; see the Simpro API reference.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuoteInput'
+      responses:
+        '201':
+          description: The created quote.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuoteListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /companies/{companyID}/quotes/{quoteID}:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+      - $ref: '#/components/parameters/QuoteID'
+    get:
+      operationId: getQuote
+      tags:
+        - Quotes
+      summary: Retrieve a quote
+      responses:
+        '200':
+          description: The requested quote.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuoteListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateQuote
+      tags:
+        - Quotes
+      summary: Update a quote
+      description: 'NOTE - request body is modeled minimally; see the Simpro API reference.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/QuoteInput'
+      responses:
+        '200':
+          description: The updated quote.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/QuoteListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteQuote
+      tags:
+        - Quotes
+      summary: Delete a quote
+      responses:
+        '204':
+          description: The quote was deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /companies/{companyID}/invoices/:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+    get:
+      operationId: listInvoices
+      tags:
+        - Invoices
+      summary: List all invoices
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/OrderBy'
+      responses:
+        '200':
+          description: A list of invoices.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/InvoiceListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createInvoice
+      tags:
+        - Invoices
+      summary: Create an invoice
+      description: 'NOTE - request body is modeled minimally; see the Simpro API reference.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoiceInput'
+      responses:
+        '201':
+          description: The created invoice.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /companies/{companyID}/invoices/{invoiceID}:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+      - $ref: '#/components/parameters/InvoiceID'
+    get:
+      operationId: getInvoice
+      tags:
+        - Invoices
+      summary: Retrieve an invoice
+      responses:
+        '200':
+          description: The requested invoice.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateInvoice
+      tags:
+        - Invoices
+      summary: Update an invoice
+      description: 'NOTE - request body is modeled minimally; see the Simpro API reference.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoiceInput'
+      responses:
+        '200':
+          description: The updated invoice.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InvoiceListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteInvoice
+      tags:
+        - Invoices
+      summary: Delete an invoice
+      responses:
+        '204':
+          description: The invoice was deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /companies/{companyID}/schedules/:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+    get:
+      operationId: listSchedules
+      tags:
+        - Schedules
+      summary: List all schedules
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/OrderBy'
+      responses:
+        '200':
+          description: A list of schedule records.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScheduleListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /companies/{companyID}/schedules/{scheduleID}:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+      - $ref: '#/components/parameters/ScheduleID'
+    get:
+      operationId: getSchedule
+      tags:
+        - Schedules
+      summary: Retrieve a schedule
+      responses:
+        '200':
+          description: The requested schedule record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ScheduleListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /companies/{companyID}/vendorOrders/:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+    get:
+      operationId: listVendorOrders
+      tags:
+        - Vendor Orders
+      summary: List all vendor orders
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: A list of vendor orders.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/VendorOrderListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createVendorOrder
+      tags:
+        - Vendor Orders
+      summary: Create a vendor order
+      description: 'NOTE - request body is modeled minimally; see the Simpro API reference.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VendorOrderInput'
+      responses:
+        '201':
+          description: The created vendor order.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VendorOrderListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /companies/{companyID}/vendorOrders/{vendorOrderID}:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+      - $ref: '#/components/parameters/VendorOrderID'
+    get:
+      operationId: getVendorOrder
+      tags:
+        - Vendor Orders
+      summary: Retrieve a vendor order
+      responses:
+        '200':
+          description: The requested vendor order.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VendorOrderListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateVendorOrder
+      tags:
+        - Vendor Orders
+      summary: Update a vendor order
+      description: 'NOTE - request body is modeled minimally; see the Simpro API reference.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/VendorOrderInput'
+      responses:
+        '200':
+          description: The updated vendor order.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VendorOrderListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteVendorOrder
+      tags:
+        - Vendor Orders
+      summary: Delete a vendor order
+      responses:
+        '204':
+          description: The vendor order was deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /companies/{companyID}/setup/accounts/costCenters/:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+    get:
+      operationId: listCostCenters
+      tags:
+        - Cost Centers
+      summary: List all cost centers
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: A list of cost centers.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CostCenterListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createCostCenter
+      tags:
+        - Cost Centers
+      summary: Create a cost center
+      description: 'NOTE - request body is modeled minimally; see the Simpro API reference.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CostCenterInput'
+      responses:
+        '201':
+          description: The created cost center.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostCenterListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /companies/{companyID}/setup/accounts/costCenters/{costCenterID}:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+      - $ref: '#/components/parameters/CostCenterID'
+    get:
+      operationId: getCostCenter
+      tags:
+        - Cost Centers
+      summary: Retrieve a cost center
+      responses:
+        '200':
+          description: The requested cost center.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostCenterListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateCostCenter
+      tags:
+        - Cost Centers
+      summary: Update a cost center
+      description: 'NOTE - request body is modeled minimally; see the Simpro API reference.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CostCenterInput'
+      responses:
+        '200':
+          description: The updated cost center.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CostCenterListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteCostCenter
+      tags:
+        - Cost Centers
+      summary: Delete a cost center
+      responses:
+        '204':
+          description: The cost center was deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /companies/{companyID}/storageDevices/{storageDeviceID}/stock/:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+      - $ref: '#/components/parameters/StorageDeviceID'
+    get:
+      operationId: listStock
+      tags:
+        - Stock
+      summary: List stock on a storage device
+      description: Lists the catalog stock items held on a given storage device.
+      parameters:
+        - $ref: '#/components/parameters/Search'
+        - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/Page'
+      responses:
+        '200':
+          description: A list of stock items.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StockListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /companies/{companyID}/storageDevices/{storageDeviceID}/stock/{catalogID}:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+      - $ref: '#/components/parameters/StorageDeviceID'
+      - $ref: '#/components/parameters/CatalogID'
+    get:
+      operationId: getStockItem
+      tags:
+        - Stock
+      summary: Retrieve a stock item
+      responses:
+        '200':
+          description: The requested stock item.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StockListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /companies/{companyID}/setup/webhooks/:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+    get:
+      operationId: listWebhooks
+      tags:
+        - Webhooks
+      summary: List all webhook subscriptions
+      responses:
+        '200':
+          description: A list of webhook subscriptions.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WebhookListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createWebhook
+      tags:
+        - Webhooks
+      summary: Create a webhook subscription
+      description: >-
+        Subscribes an HTTPS callback URL to build events. NOTE - request body is
+        modeled minimally; see the Simpro API reference for the full schema.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookInput'
+      responses:
+        '201':
+          description: The created webhook subscription.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /companies/{companyID}/setup/webhooks/{webhookID}:
+    parameters:
+      - $ref: '#/components/parameters/CompanyID'
+      - $ref: '#/components/parameters/WebhookID'
+    get:
+      operationId: getWebhook
+      tags:
+        - Webhooks
+      summary: Retrieve a webhook subscription
+      responses:
+        '200':
+          description: The requested webhook subscription.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateWebhook
+      tags:
+        - Webhooks
+      summary: Update a webhook subscription
+      description: 'NOTE - request body is modeled minimally; see the Simpro API reference.'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookInput'
+      responses:
+        '200':
+          description: The updated webhook subscription.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebhookListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteWebhook
+      tags:
+        - Webhooks
+      summary: Delete a webhook subscription
+      responses:
+        '204':
+          description: The webhook subscription was deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: >-
+        OAuth2 issued by the customer's own Simpro build. Access tokens are
+        obtained from https://{build}.simprosuite.com/oauth2/token and sent as
+        `Authorization: Bearer ACCESS_TOKEN`. Both the client credentials and
+        authorization code grants are supported depending on how the API
+        application is registered on the build.
+      flows:
+        clientCredentials:
+          tokenUrl: https://your-build.simprosuite.com/oauth2/token
+          scopes: {}
+        authorizationCode:
+          authorizationUrl: https://your-build.simprosuite.com/oauth2/authorize
+          tokenUrl: https://your-build.simprosuite.com/oauth2/token
+          scopes: {}
+  parameters:
+    CompanyID:
+      name: companyID
+      in: path
+      required: true
+      description: >-
+        The company ID. A build with Multi-company setup may have companyID >= 0;
+        other builds use 0 by default.
+      schema:
+        type: integer
+        default: 0
+    CustomerID:
+      name: customerID
+      in: path
+      required: true
+      description: The customer's ID.
+      schema:
+        type: integer
+    SiteID:
+      name: siteID
+      in: path
+      required: true
+      description: The site's ID.
+      schema:
+        type: integer
+    JobID:
+      name: jobID
+      in: path
+      required: true
+      description: The job's ID.
+      schema:
+        type: integer
+    QuoteID:
+      name: quoteID
+      in: path
+      required: true
+      description: The quote's ID.
+      schema:
+        type: integer
+    InvoiceID:
+      name: invoiceID
+      in: path
+      required: true
+      description: The invoice's ID.
+      schema:
+        type: integer
+    ScheduleID:
+      name: scheduleID
+      in: path
+      required: true
+      description: The schedule record's ID.
+      schema:
+        type: integer
+    VendorOrderID:
+      name: vendorOrderID
+      in: path
+      required: true
+      description: The vendor order's ID.
+      schema:
+        type: integer
+    CostCenterID:
+      name: costCenterID
+      in: path
+      required: true
+      description: The cost center's ID.
+      schema:
+        type: integer
+    StorageDeviceID:
+      name: storageDeviceID
+      in: path
+      required: true
+      description: The storage device's ID.
+      schema:
+        type: integer
+    CatalogID:
+      name: catalogID
+      in: path
+      required: true
+      description: The catalog item's ID.
+      schema:
+        type: integer
+    WebhookID:
+      name: webhookID
+      in: path
+      required: true
+      description: The webhook subscription's ID.
+      schema:
+        type: integer
+    Search:
+      name: search
+      in: query
+      required: false
+      description: >-
+        Search filter. With search=all the result must match all provided
+        fields; with search=any it may match any of them.
+      schema:
+        type: string
+    Columns:
+      name: columns
+      in: query
+      required: false
+      description: When listing or searching a resource, specify which columns to display.
+      schema:
+        type: array
+        items:
+          type: string
+      style: form
+      explode: false
+    OrderBy:
+      name: orderby
+      in: query
+      required: false
+      description: >-
+        Order of the requested records. Prefix a column name with '-' for
+        descending order. A comma-separated list may be provided.
+      schema:
+        type: array
+        items:
+          type: string
+      style: form
+      explode: false
+    PageSize:
+      name: pageSize
+      in: query
+      required: false
+      description: The maximum number of results to return per page.
+      schema:
+        type: integer
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number on a paginated request.
+      schema:
+        type: integer
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: The limit on the number of records in a request.
+      schema:
+        type: integer
+  responses:
+    Unauthorized:
+      description: Missing or invalid OAuth2 Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+              key:
+                type: string
+    CompanyListItem:
+      type: object
+      description: Confirmed fields from the companies list response.
+      properties:
+        ID:
+          type: integer
+        Name:
+          type: string
+    CustomerListItem:
+      type: object
+      description: Confirmed fields from the customers list response.
+      properties:
+        ID:
+          type: integer
+          description: This customer's ID.
+        _href:
+          type: string
+          description: Link to this customer's details.
+        CompanyName:
+          type: string
+          description: Company name (company customers).
+        GivenName:
+          type: string
+          description: Given / first name (individual customers).
+        FamilyName:
+          type: string
+          description: Family / last name (individual customers).
+    CustomerInput:
+      type: object
+      description: >-
+        Modeled minimal create/update body. The real Simpro customer payload has
+        many more fields (address, contacts, pricing, tax, custom fields).
+      properties:
+        CompanyName:
+          type: string
+        GivenName:
+          type: string
+        FamilyName:
+          type: string
+    SiteListItem:
+      type: object
+      description: Modeled from the sites resource. Verify field names against the Simpro API reference.
+      properties:
+        ID:
+          type: integer
+        Name:
+          type: string
+    SiteInput:
+      type: object
+      description: Modeled minimal create/update body for a site.
+      properties:
+        Name:
+          type: string
+    JobListItem:
+      type: object
+      description: Confirmed fields from the jobs list response.
+      properties:
+        ID:
+          type: integer
+          description: This job's ID.
+        Description:
+          type: string
+          description: Supports HTML formatting.
+        Total:
+          type: object
+          properties:
+            ExTax:
+              type: number
+            Tax:
+              type: number
+            IncTax:
+              type: number
+    JobInput:
+      type: object
+      description: >-
+        Modeled minimal create body. Real job creation accepts many more fields;
+        see the Simpro API reference.
+      properties:
+        CustomerID:
+          type: integer
+        SiteID:
+          type: integer
+        Description:
+          type: string
+    QuoteListItem:
+      type: object
+      description: Modeled from the quotes resource. Verify field names against the Simpro API reference.
+      properties:
+        ID:
+          type: integer
+        Description:
+          type: string
+        Total:
+          type: object
+          properties:
+            ExTax:
+              type: number
+            Tax:
+              type: number
+            IncTax:
+              type: number
+    QuoteInput:
+      type: object
+      description: Modeled minimal create/update body for a quote.
+      properties:
+        CustomerID:
+          type: integer
+        SiteID:
+          type: integer
+        Description:
+          type: string
+    InvoiceListItem:
+      type: object
+      description: Modeled from the invoices resource. Verify field names against the Simpro API reference.
+      properties:
+        ID:
+          type: integer
+        Total:
+          type: object
+          properties:
+            ExTax:
+              type: number
+            Tax:
+              type: number
+            IncTax:
+              type: number
+    InvoiceInput:
+      type: object
+      description: Modeled minimal create/update body for an invoice.
+      properties:
+        Type:
+          type: string
+        CustomerID:
+          type: integer
+    ScheduleListItem:
+      type: object
+      description: Modeled from the schedules resource. Verify field names against the Simpro API reference.
+      properties:
+        ID:
+          type: integer
+        Staff:
+          type: object
+          additionalProperties: true
+        Date:
+          type: string
+          format: date
+    VendorOrderListItem:
+      type: object
+      description: Modeled from the vendor orders resource. Verify field names against the Simpro API reference.
+      properties:
+        ID:
+          type: integer
+        Reference:
+          type: string
+    VendorOrderInput:
+      type: object
+      description: Modeled minimal create/update body for a vendor order.
+      properties:
+        Vendor:
+          type: integer
+    CostCenterListItem:
+      type: object
+      description: Modeled from the cost centers resource. Verify field names against the Simpro API reference.
+      properties:
+        ID:
+          type: integer
+        Name:
+          type: string
+    CostCenterInput:
+      type: object
+      description: Modeled minimal create/update body for a cost center.
+      properties:
+        Name:
+          type: string
+    StockListItem:
+      type: object
+      description: Modeled from the storage-device stock resource. Verify field names against the Simpro API reference.
+      properties:
+        Catalog:
+          type: object
+          additionalProperties: true
+        Quantity:
+          type: number
+    WebhookListItem:
+      type: object
+      description: Modeled from the webhook subscriptions resource. Verify field names against the Simpro API reference.
+      properties:
+        ID:
+          type: integer
+        Reference:
+          type: string
+        CallbackURL:
+          type: string
+          format: uri
+    WebhookInput:
+      type: object
+      description: Modeled minimal create/update body for a webhook subscription.
+      properties:
+        Reference:
+          type: string
+        CallbackURL:
+          type: string
+          format: uri
+        Events:
+          type: array
+          items:
+            type: string

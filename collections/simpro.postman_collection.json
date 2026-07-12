@@ -1,0 +1,296 @@
+{
+  "info": {
+    "name": "Simpro REST API",
+    "description": "Representative subset of the Simpro (simPRO) REST API v1.0. This is not a shared public API: the host is per-build. Set {{baseUrl}} to https://YOUR-BUILD.simprosuite.com/api/v1.0 and {{accessToken}} to an OAuth2 access token from https://YOUR-BUILD.simprosuite.com/oauth2/token. {{companyID}} is 0 on single-company builds. Rate limit is 10 calls/sec per build (HTTP 429 on exceed).",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      { "key": "token", "value": "{{accessToken}}", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://your-build.simprosuite.com/api/v1.0", "type": "string" },
+    { "key": "accessToken", "value": "", "type": "string" },
+    { "key": "companyID", "value": "0", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Companies",
+      "item": [
+        {
+          "name": "List all companies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/", "host": ["{{baseUrl}}"], "path": ["companies", ""] },
+            "description": "Lists the companies configured on this build."
+          }
+        },
+        {
+          "name": "Retrieve a company",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}"] },
+            "description": "Retrieves detailed information for a single company."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "List all customers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/customers/", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "customers", ""] },
+            "description": "Lists all customers (company and individual) for a company."
+          }
+        },
+        {
+          "name": "Create a company customer",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"CompanyName\": \"John Smith Pty Ltd\"\n}" },
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/customers/companies/", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "customers", "companies", ""] },
+            "description": "Creates a company (organization) customer. Body modeled minimally."
+          }
+        },
+        {
+          "name": "Retrieve a company customer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/customers/companies/:customerID", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "customers", "companies", ":customerID"], "variable": [{ "key": "customerID", "value": "" }] },
+            "description": "Retrieves a company customer by ID."
+          }
+        },
+        {
+          "name": "Create an individual customer",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"GivenName\": \"John\",\n  \"FamilyName\": \"Smith\"\n}" },
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/customers/individuals/", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "customers", "individuals", ""] },
+            "description": "Creates an individual (person) customer. Body modeled minimally."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Sites",
+      "item": [
+        {
+          "name": "List all sites",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/sites/", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "sites", ""] },
+            "description": "Lists all customer sites and service locations."
+          }
+        },
+        {
+          "name": "Retrieve a site",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/sites/:siteID", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "sites", ":siteID"], "variable": [{ "key": "siteID", "value": "" }] },
+            "description": "Retrieves a site by ID."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jobs",
+      "item": [
+        {
+          "name": "List all jobs",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/jobs/?pageSize=30&page=1", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "jobs", ""], "query": [{ "key": "pageSize", "value": "30" }, { "key": "page", "value": "1" }] },
+            "description": "Lists all jobs for a company."
+          }
+        },
+        {
+          "name": "Create a job",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"CustomerID\": 123,\n  \"SiteID\": 456,\n  \"Description\": \"New job description\"\n}" },
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/jobs/", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "jobs", ""] },
+            "description": "Creates a job. Body modeled minimally."
+          }
+        },
+        {
+          "name": "Retrieve a job",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/jobs/:jobID", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "jobs", ":jobID"], "variable": [{ "key": "jobID", "value": "" }] },
+            "description": "Retrieves a job by ID."
+          }
+        },
+        {
+          "name": "Update a job",
+          "request": {
+            "method": "PATCH",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/jobs/:jobID", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "jobs", ":jobID"], "variable": [{ "key": "jobID", "value": "" }] },
+            "description": "Updates a job. Body modeled minimally."
+          }
+        },
+        {
+          "name": "Delete a job",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/jobs/:jobID", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "jobs", ":jobID"], "variable": [{ "key": "jobID", "value": "" }] },
+            "description": "Deletes a job."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Quotes",
+      "item": [
+        {
+          "name": "List all quotes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/quotes/", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "quotes", ""] },
+            "description": "Lists all quotes for a company."
+          }
+        },
+        {
+          "name": "Retrieve a quote",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/quotes/:quoteID", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "quotes", ":quoteID"], "variable": [{ "key": "quoteID", "value": "" }] },
+            "description": "Retrieves a quote by ID."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Invoices",
+      "item": [
+        {
+          "name": "List all invoices",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/invoices/", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "invoices", ""] },
+            "description": "Lists all customer invoices for a company."
+          }
+        },
+        {
+          "name": "Retrieve an invoice",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/invoices/:invoiceID", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "invoices", ":invoiceID"], "variable": [{ "key": "invoiceID", "value": "" }] },
+            "description": "Retrieves an invoice by ID."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Schedules",
+      "item": [
+        {
+          "name": "List all schedules",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/schedules/", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "schedules", ""] },
+            "description": "Lists schedule records (staff assignments) for a company."
+          }
+        },
+        {
+          "name": "Retrieve a schedule",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/schedules/:scheduleID", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "schedules", ":scheduleID"], "variable": [{ "key": "scheduleID", "value": "" }] },
+            "description": "Retrieves a schedule record by ID."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Vendor Orders",
+      "item": [
+        {
+          "name": "List all vendor orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/vendorOrders/", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "vendorOrders", ""] },
+            "description": "Lists all vendor (purchase) orders for a company."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Cost Centers",
+      "item": [
+        {
+          "name": "List all cost centers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/setup/accounts/costCenters/", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "setup", "accounts", "costCenters", ""] },
+            "description": "Lists accounting cost centers under company setup."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Stock",
+      "item": [
+        {
+          "name": "List stock on a storage device",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/storageDevices/:storageDeviceID/stock/", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "storageDevices", ":storageDeviceID", "stock", ""], "variable": [{ "key": "storageDeviceID", "value": "" }] },
+            "description": "Lists catalog stock items held on a storage device."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "List all webhook subscriptions",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/setup/webhooks/", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "setup", "webhooks", ""] },
+            "description": "Lists webhook subscriptions under company setup."
+          }
+        },
+        {
+          "name": "Create a webhook subscription",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"Reference\": \"my-integration\",\n  \"CallbackURL\": \"https://example.com/simpro-webhook\",\n  \"Events\": []\n}" },
+            "url": { "raw": "{{baseUrl}}/companies/{{companyID}}/setup/webhooks/", "host": ["{{baseUrl}}"], "path": ["companies", "{{companyID}}", "setup", "webhooks", ""] },
+            "description": "Subscribes an HTTPS callback URL to build events. Body modeled minimally."
+          }
+        }
+      ]
+    }
+  ]
+}

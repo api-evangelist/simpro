@@ -1,0 +1,146 @@
+aid: simpro
+name: Simpro
+review:
+  question: Does Simpro expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-12'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Simpro's documented API surface is
+    request/response REST over HTTPS (the Simpro REST API v1.0). The only
+    asynchronous, server-initiated mechanism is webhook subscriptions, where
+    Simpro POSTs an HTTPS callback to a URL you register under
+    /api/v1.0/companies/{companyID}/setup/webhooks/. Webhooks are
+    server-to-endpoint HTTP delivery, not a persistent WebSocket (ws:// or
+    wss://) or SSE stream on Simpro's own API, so there is no server-push
+    transport on Simpro's API to model in AsyncAPI.
+findings:
+  summary: |
+    Simpro does not publish a documented public WebSocket API. Simpro is field
+    service and project/business management software for the trades. Its
+    documented programmatic surface is the Simpro REST API v1.0, a RESTful
+    HTTPS interface for viewing, creating, and modifying resources on a Simpro
+    Premium build. It is not a shared multi-tenant public API: each API runs on
+    the customer's own build host (https://your-build.simprosuite.com) and is
+    authenticated with OAuth2 access tokens issued by that build's
+    /oauth2/token endpoint. Most resources are nested under a company at
+    /api/v1.0/companies/{companyID}/... (companyID 0 on single-company builds).
+    Real-time change notification is offered through webhook subscriptions
+    (outbound HTTPS callbacks), not WebSockets. No ws:// or wss:// endpoint is
+    documented anywhere in the Simpro API reference.
+  accessModel: |
+    Access requires an existing Simpro Premium subscription with API access
+    enabled on the build. An account administrator registers an API
+    application on the build and provisions OAuth2 client credentials; the
+    integration then requests access tokens from the same build subdomain used
+    to log in to the staff portal. There is no open self-service sandbox or
+    global API host - the base host is per-build.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://{build}.simprosuite.com/api/v1.0
+      documented: true
+      note: Simpro REST API v1.0. Per-build host; resources nested under /companies/{companyID}/.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Webhook subscriptions POST HTTPS callbacks to your endpoint on build events. Server-to-endpoint HTTP, not WebSocket.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in the Simpro API reference as of the review date.
+  endpointsConfirmedRest:
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/customers/
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/customers/companies/
+    - POST   https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/customers/companies/
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/customers/companies/{customerID}
+    - PATCH  https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/customers/companies/{customerID}
+    - DELETE https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/customers/companies/{customerID}
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/customers/individuals/
+    - POST   https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/customers/individuals/
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/customers/individuals/{customerID}
+    - PATCH  https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/customers/individuals/{customerID}
+    - DELETE https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/customers/individuals/{customerID}
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/sites/
+    - POST   https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/sites/
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/sites/{siteID}
+    - PATCH  https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/sites/{siteID}
+    - DELETE https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/sites/{siteID}
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/jobs/
+    - POST   https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/jobs/
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/jobs/{jobID}
+    - PATCH  https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/jobs/{jobID}
+    - DELETE https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/jobs/{jobID}
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/quotes/
+    - POST   https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/quotes/
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/quotes/{quoteID}
+    - PATCH  https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/quotes/{quoteID}
+    - DELETE https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/quotes/{quoteID}
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/invoices/
+    - POST   https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/invoices/
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/invoices/{invoiceID}
+    - PATCH  https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/invoices/{invoiceID}
+    - DELETE https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/invoices/{invoiceID}
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/schedules/
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/schedules/{scheduleID}
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/vendorOrders/
+    - POST   https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/vendorOrders/
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/vendorOrders/{vendorOrderID}
+    - PATCH  https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/vendorOrders/{vendorOrderID}
+    - DELETE https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/vendorOrders/{vendorOrderID}
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/setup/accounts/costCenters/
+    - POST   https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/setup/accounts/costCenters/
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/setup/accounts/costCenters/{costCenterID}
+    - PATCH  https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/setup/accounts/costCenters/{costCenterID}
+    - DELETE https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/setup/accounts/costCenters/{costCenterID}
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/storageDevices/{storageDeviceID}/stock/
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/storageDevices/{storageDeviceID}/stock/{catalogID}
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/setup/webhooks/
+    - POST   https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/setup/webhooks/
+    - GET    https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/setup/webhooks/{webhookID}
+    - PATCH  https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/setup/webhooks/{webhookID}
+    - DELETE https://{build}.simprosuite.com/api/v1.0/companies/{companyID}/setup/webhooks/{webhookID}
+  endpointsModeledNote: |
+    The paths, HTTP methods, and the common list/search query parameters
+    (search, columns, pageSize, page, orderby, limit) above are grounded in
+    Simpro's published REST API v1.0 reference. The list/read RESPONSE FIELDS
+    modeled in the OpenAPI for companies (ID, Name), customers (ID, _href,
+    CompanyName, GivenName, FamilyName), and jobs (ID, Description, Total)
+    are confirmed from the documented example responses. All create/update
+    REQUEST bodies, error envelopes, and the schemas for sites, quotes,
+    invoices, schedules, vendor orders, cost centers, stock, and webhooks are
+    MODELED minimally and flagged as such in the OpenAPI - the real Simpro
+    payloads are large and build-configuration dependent. The published API
+    spans 300+ resource types; only a representative subset is modeled here.
+  rateLimiting: |
+    Simpro enforces an API rate limit of 10 calls per second scoped to the
+    whole Simpro domain/build (effective 9 August 2022). Exceeding it returns
+    HTTP 429; clients should back off and retry.
+sources:
+  - url: https://developer.simprogroup.com/
+    type: Documentation
+    note: Simpro Developer Center - OAuth2 auth, per-build host, REST API v1.0. (Cloudflare-gated to automated fetch.)
+  - url: https://developer.simprogroup.com/apidoc/
+    type: APIReference
+    note: Full API reference for all resources; Swagger/OpenAPI also exposed at each build's /api/v1.0/docs.
+  - url: https://helpguide.simprogroup.com/Content/Service-and-Enterprise/API-FAQs.htm
+    type: Documentation
+    note: API FAQs - OAuth2, use the same domain as the staff portal login, rate limiting.
+  - url: https://apiforum.simprogroup.com/
+    type: Documentation
+    note: Official API forum. Confirms /oauth2/token per build, client_credentials grant, and the 10 calls/sec rate limit.
+  - url: https://github.com/jezweb/simpro-api-docs
+    type: SourceCode
+    note: Third-party mirror of Simpro's official Swagger/OpenAPI 2.0 spec converted to Markdown; used to confirm exact endpoint paths, methods, query params, and example response fields.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. Simpro's own public API is
+    request/response REST (Simpro REST API v1.0), with asynchronous
+    notifications delivered only via outbound HTTPS webhook callbacks. No
+    AsyncAPI document was created because there is no WebSocket or SSE
+    server-push transport on Simpro's API to model.

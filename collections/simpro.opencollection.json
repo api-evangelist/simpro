@@ -1,0 +1,346 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Simpro REST API",
+    "version": "1.0",
+    "description": "Representative subset of the Simpro (simPRO) REST API v1.0. Per-build host: replace {{baseUrl}} with https://YOUR-BUILD.simprosuite.com/api/v1.0. OAuth2 Bearer access token from https://YOUR-BUILD.simprosuite.com/oauth2/token. companyID is 0 on single-company builds."
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{accessToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": { "name": "Companies", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all companies.", "type": "http" },
+          "http": { "method": "GET", "url": "{{baseUrl}}/companies/" },
+          "docs": "Lists the companies configured on this build."
+        },
+        {
+          "info": { "name": "Retrieve a company.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID (0 on single-company builds)." }
+            ]
+          },
+          "docs": "Retrieves detailed information for a single company."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Customers", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all customers.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID/customers/",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." }
+            ]
+          },
+          "docs": "Lists all customers (company and individual) for a company."
+        },
+        {
+          "info": { "name": "Create a company customer.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/companies/:companyID/customers/companies/",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"CompanyName\": \"John Smith Pty Ltd\"\n}" }
+          },
+          "docs": "Creates a company (organization) customer. Body modeled minimally."
+        },
+        {
+          "info": { "name": "Retrieve a company customer.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID/customers/companies/:customerID",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." },
+              { "name": "customerID", "value": "", "type": "path", "description": "Customer ID." }
+            ]
+          },
+          "docs": "Retrieves a company customer by ID."
+        },
+        {
+          "info": { "name": "Create an individual customer.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/companies/:companyID/customers/individuals/",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"GivenName\": \"John\",\n  \"FamilyName\": \"Smith\"\n}" }
+          },
+          "docs": "Creates an individual (person) customer. Body modeled minimally."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Sites", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all sites.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID/sites/",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." }
+            ]
+          },
+          "docs": "Lists all customer sites and service locations."
+        },
+        {
+          "info": { "name": "Retrieve a site.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID/sites/:siteID",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." },
+              { "name": "siteID", "value": "", "type": "path", "description": "Site ID." }
+            ]
+          },
+          "docs": "Retrieves a site by ID."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Jobs", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all jobs.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID/jobs/?pageSize=30&page=1",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." },
+              { "name": "pageSize", "value": "30", "type": "query", "description": "Results per page." },
+              { "name": "page", "value": "1", "type": "query", "description": "Page number." }
+            ]
+          },
+          "docs": "Lists all jobs for a company."
+        },
+        {
+          "info": { "name": "Create a job.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/companies/:companyID/jobs/",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"CustomerID\": 123,\n  \"SiteID\": 456,\n  \"Description\": \"New job description\"\n}" }
+          },
+          "docs": "Creates a job. Body modeled minimally."
+        },
+        {
+          "info": { "name": "Retrieve a job.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID/jobs/:jobID",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." },
+              { "name": "jobID", "value": "", "type": "path", "description": "Job ID." }
+            ]
+          },
+          "docs": "Retrieves a job by ID."
+        },
+        {
+          "info": { "name": "Update a job.", "type": "http" },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/companies/:companyID/jobs/:jobID",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." },
+              { "name": "jobID", "value": "", "type": "path", "description": "Job ID." }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Updates a job. Body modeled minimally."
+        },
+        {
+          "info": { "name": "Delete a job.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/companies/:companyID/jobs/:jobID",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." },
+              { "name": "jobID", "value": "", "type": "path", "description": "Job ID." }
+            ]
+          },
+          "docs": "Deletes a job."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Quotes", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all quotes.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID/quotes/",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." }
+            ]
+          },
+          "docs": "Lists all quotes for a company."
+        },
+        {
+          "info": { "name": "Retrieve a quote.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID/quotes/:quoteID",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." },
+              { "name": "quoteID", "value": "", "type": "path", "description": "Quote ID." }
+            ]
+          },
+          "docs": "Retrieves a quote by ID."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Invoices", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all invoices.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID/invoices/",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." }
+            ]
+          },
+          "docs": "Lists all customer invoices for a company."
+        },
+        {
+          "info": { "name": "Retrieve an invoice.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID/invoices/:invoiceID",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." },
+              { "name": "invoiceID", "value": "", "type": "path", "description": "Invoice ID." }
+            ]
+          },
+          "docs": "Retrieves an invoice by ID."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Schedules", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all schedules.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID/schedules/",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." }
+            ]
+          },
+          "docs": "Lists schedule records (staff assignments) for a company."
+        },
+        {
+          "info": { "name": "Retrieve a schedule.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID/schedules/:scheduleID",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." },
+              { "name": "scheduleID", "value": "", "type": "path", "description": "Schedule ID." }
+            ]
+          },
+          "docs": "Retrieves a schedule record by ID."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Vendor Orders", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all vendor orders.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID/vendorOrders/",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." }
+            ]
+          },
+          "docs": "Lists all vendor (purchase) orders for a company."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Cost Centers", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all cost centers.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID/setup/accounts/costCenters/",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." }
+            ]
+          },
+          "docs": "Lists accounting cost centers under company setup."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Stock", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List stock on a storage device.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID/storageDevices/:storageDeviceID/stock/",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." },
+              { "name": "storageDeviceID", "value": "", "type": "path", "description": "Storage device ID." }
+            ]
+          },
+          "docs": "Lists catalog stock items held on a storage device."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Webhooks", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List all webhook subscriptions.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/companies/:companyID/setup/webhooks/",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." }
+            ]
+          },
+          "docs": "Lists webhook subscriptions under company setup."
+        },
+        {
+          "info": { "name": "Create a webhook subscription.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/companies/:companyID/setup/webhooks/",
+            "params": [
+              { "name": "companyID", "value": "0", "type": "path", "description": "Company ID." }
+            ],
+            "body": { "type": "json", "data": "{\n  \"Reference\": \"my-integration\",\n  \"CallbackURL\": \"https://example.com/simpro-webhook\",\n  \"Events\": []\n}" }
+          },
+          "docs": "Subscribes an HTTPS callback URL to build events. Body modeled minimally."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

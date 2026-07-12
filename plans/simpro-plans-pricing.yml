@@ -1,0 +1,106 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Simpro
+providerId: simpro
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Field Service Management
+- Trades
+- SaaS
+- Plans
+description: >-
+  Simpro is sold as a per-user SaaS subscription for the trades, quoted by sales
+  rather than published as fixed self-service pricing. Pricing is tiered and
+  depends on the number of user seats, the edition/modules enabled, and
+  onboarding/implementation, and is typically bundled per user per month.
+  Third-party trackers report entry pricing in roughly the $30-$70 per user per
+  month range, but Simpro does not publish an authoritative public price list -
+  a tailored quote is required. The REST API is a capability of a Simpro Premium
+  subscription; there is no separate metered API product or public API price.
+  Exact seat rates and edition boundaries are not reconciled here.
+notes: >-
+  The plan structure below is modeled from public third-party pricing trackers
+  and Simpro's positioning, not from an official Simpro price list. Treat all
+  amounts as indicative and confirm current editions, seat pricing, module
+  add-ons, and onboarding fees directly with Simpro during reconciliation.
+sources:
+- https://www.simprogroup.com/
+- https://www.capterra.com/p/10529/Simpro-Enterprise/
+- https://www.saasworthy.com/product/simpro/pricing
+- https://helpguide.simprogroup.com/Content/Service-and-Enterprise/API-FAQs.htm
+plans:
+- id: simpro-quoted-subscription
+  name: Simpro Subscription (Quoted)
+  type: paid
+  description: >-
+    Per-user SaaS subscription to the Simpro field service and project
+    management platform, quoted by sales based on seat count, edition, and
+    modules. Includes access to the Simpro REST API v1.0 on the build once API
+    access is enabled by an administrator.
+  entries:
+  - label: Per User Seat
+    name: per_user_seat
+    type: flat
+    metric: seat
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: quoted per user per month (indicatively ~$30-$70/user/mo; contact sales)
+    userMultiplied: true
+  elements:
+  - name: Quoting and Estimating
+  - name: Job and Project Management
+  - name: Scheduling and Dispatch
+  - name: Inventory and Catalog
+  - name: Invoicing and Accounting Sync
+  - name: REST API v1.0 Access
+- id: simpro-onboarding
+  name: Implementation and Onboarding
+  type: paid
+  description: >-
+    One-off implementation, data migration, and training engagement typically
+    required to stand up a Simpro build. Priced separately from the recurring
+    subscription.
+  entries:
+  - label: Onboarding
+    name: onboarding
+    type: flat
+    metric: engagement
+    limit: -1
+    timeFrame: once
+    geo: global
+    unit: 1
+    price: one-off; quoted (contact sales)
+    userMultiplied: false
+  elements:
+  - name: Data Migration
+  - name: Configuration
+  - name: Training
+- id: simpro-enterprise
+  name: Enterprise / Custom
+  type: enterprise
+  description: >-
+    Larger multi-company or high-seat deployments with negotiated pricing,
+    additional modules, security review, and support terms. Contact Simpro.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Multi-Company
+  - name: Custom Modules
+  - name: Support and SLAs
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

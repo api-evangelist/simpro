@@ -1,0 +1,30 @@
+generated: '2026-07-12'
+method: derived
+source: openapi/simpro-openapi.yml
+summary:
+  types:
+  - oauth2
+schemes:
+- name: oauth2
+  type: oauth2
+  scheme: bearer
+  description: >-
+    Simpro authenticates API applications with OAuth2 on the customer's own
+    build. An account administrator registers an API application on the build
+    and issues client credentials. The integration then requests an access
+    token from https://{build}.simprosuite.com/oauth2/token - using the same
+    build subdomain that staff use to log in to the Simpro portal - and passes
+    it as `Authorization: Bearer ACCESS_TOKEN` on every request. Both the
+    client credentials grant and the authorization code grant are supported,
+    depending on how the application is registered. There is no global or
+    self-service API host; credentials and tokens are always scoped to a
+    specific build.
+  flows:
+  - clientCredentials
+  - authorizationCode
+  tokenUrl: https://{build}.simprosuite.com/oauth2/token
+  authorizationUrl: https://{build}.simprosuite.com/oauth2/authorize
+  sources:
+  - openapi/simpro-openapi.yml
+  - https://helpguide.simprogroup.com/Content/Service-and-Enterprise/API-FAQs.htm
+  - https://apiforum.simprogroup.com/

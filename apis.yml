@@ -1,0 +1,235 @@
+aid: simpro
+url: https://raw.githubusercontent.com/api-evangelist/simpro/refs/heads/main/apis.yml
+name: Simpro
+kind: company
+description: Simpro (simPRO) is field service management and project/business
+  management software for the trades - electrical, plumbing, HVAC, security, fire,
+  and other contractors. It covers the full workflow of estimating, quoting, job
+  management, scheduling and dispatch, asset maintenance, inventory and catalog,
+  purchasing, timesheets, and invoicing. The Simpro REST API v1.0 exposes these
+  resources over HTTPS, but it is not a shared public API - each API runs on the
+  customer's own Simpro Premium build (host https://your-build.simprosuite.com)
+  and is authenticated with OAuth2 credentials provisioned by that build's
+  administrator. Resources are nested under a company at
+  /api/v1.0/companies/{companyID}/... where companyID is 0 on single-company
+  builds.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Field Service Management
+- Trades
+- Job Management
+- Project Management
+- Scheduling
+- Inventory
+- Estimating
+- Workforce
+- SaaS
+- Contractors
+created: '2026-07-12'
+modified: '2026-07-12'
+specificationVersion: '0.19'
+apis:
+- aid: simpro:simpro-companies-api
+  name: Simpro Companies API
+  tags:
+  - Companies
+  - Configuration
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.simprogroup.com/apidoc/
+  baseURL: https://{build}.simprosuite.com/api/v1.0
+  properties:
+  - url: https://developer.simprogroup.com/
+    type: Documentation
+  - url: https://developer.simprogroup.com/apidoc/
+    type: APIReference
+  - url: openapi/simpro-openapi.yml
+    type: OpenAPI
+  description: List and retrieve the companies configured on a Simpro build. On
+    multi-company builds companyID may be greater than 0; single-company builds
+    use companyID 0. The company is the top-level scope for nearly every other
+    resource in the API.
+- aid: simpro:simpro-customers-api
+  name: Simpro Customers API
+  tags:
+  - Customers
+  - CRM
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.simprogroup.com/apidoc/
+  baseURL: https://{build}.simprosuite.com/api/v1.0
+  properties:
+  - url: https://developer.simprogroup.com/apidoc/
+    type: APIReference
+  - url: openapi/simpro-openapi.yml
+    type: OpenAPI
+  description: Create, list, retrieve, update, and delete company (organization)
+    and individual customers - the entities that receive invoices for work
+    performed. Includes the combined customers listing plus the separate
+    /customers/companies and /customers/individuals collections.
+- aid: simpro:simpro-sites-api
+  name: Simpro Sites API
+  tags:
+  - Sites
+  - Locations
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.simprogroup.com/apidoc/
+  baseURL: https://{build}.simprosuite.com/api/v1.0
+  properties:
+  - url: https://developer.simprogroup.com/apidoc/
+    type: APIReference
+  - url: openapi/simpro-openapi.yml
+    type: OpenAPI
+  description: Manage customer sites and service locations - create, list,
+    retrieve, update, and delete the physical sites that jobs, quotes, and
+    assets are associated with.
+- aid: simpro:simpro-jobs-api
+  name: Simpro Jobs API
+  tags:
+  - Jobs
+  - Work Orders
+  - Field Service
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.simprogroup.com/apidoc/
+  baseURL: https://{build}.simprosuite.com/api/v1.0
+  properties:
+  - url: https://developer.simprogroup.com/apidoc/
+    type: APIReference
+  - url: openapi/simpro-openapi.yml
+    type: OpenAPI
+  description: Create, list, retrieve, update, and delete jobs - the core unit of
+    field service work in Simpro, tracking scheduling, assigned stock, vendor
+    orders, contractor work orders, customer assets, forms, and job totals.
+- aid: simpro:simpro-quotes-api
+  name: Simpro Quotes API
+  tags:
+  - Quotes
+  - Estimating
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.simprogroup.com/apidoc/
+  baseURL: https://{build}.simprosuite.com/api/v1.0
+  properties:
+  - url: https://developer.simprogroup.com/apidoc/
+    type: APIReference
+  - url: openapi/simpro-openapi.yml
+    type: OpenAPI
+  description: Create, list, retrieve, update, and delete quotes and estimates,
+    including their descriptions and ex-tax / tax / inc-tax totals. Quotes can be
+    converted into jobs within Simpro.
+- aid: simpro:simpro-invoices-api
+  name: Simpro Invoices API
+  tags:
+  - Invoices
+  - Billing
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.simprogroup.com/apidoc/
+  baseURL: https://{build}.simprosuite.com/api/v1.0
+  properties:
+  - url: https://developer.simprogroup.com/apidoc/
+    type: APIReference
+  - url: openapi/simpro-openapi.yml
+    type: OpenAPI
+  description: Create, list, retrieve, update, and delete customer invoices raised
+    from jobs and projects, with ex-tax / tax / inc-tax totals for billing and
+    accounting-package sync.
+- aid: simpro:simpro-schedules-api
+  name: Simpro Schedules API
+  tags:
+  - Scheduling
+  - Dispatch
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.simprogroup.com/apidoc/
+  baseURL: https://{build}.simprosuite.com/api/v1.0
+  properties:
+  - url: https://developer.simprogroup.com/apidoc/
+    type: APIReference
+  - url: openapi/simpro-openapi.yml
+    type: OpenAPI
+  description: List and retrieve schedule records - the assignments of staff to
+    jobs and activities across the calendar. Read access to the scheduling and
+    dispatch data that drives field workforce planning.
+- aid: simpro:simpro-vendor-orders-api
+  name: Simpro Vendor Orders API
+  tags:
+  - Purchasing
+  - Vendor Orders
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.simprogroup.com/apidoc/
+  baseURL: https://{build}.simprosuite.com/api/v1.0
+  properties:
+  - url: https://developer.simprogroup.com/apidoc/
+    type: APIReference
+  - url: openapi/simpro-openapi.yml
+    type: OpenAPI
+  description: Create, list, retrieve, update, and delete vendor (purchase) orders
+    raised to suppliers for materials and stock consumed on jobs and projects.
+- aid: simpro:simpro-cost-centers-api
+  name: Simpro Cost Centers API
+  tags:
+  - Accounting
+  - Cost Centers
+  - Setup
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.simprogroup.com/apidoc/
+  baseURL: https://{build}.simprosuite.com/api/v1.0
+  properties:
+  - url: https://developer.simprogroup.com/apidoc/
+    type: APIReference
+  - url: openapi/simpro-openapi.yml
+    type: OpenAPI
+  description: Manage accounting cost centers under company setup - create, list,
+    retrieve, update, and delete the cost centers that job and project financials
+    are allocated against.
+- aid: simpro:simpro-stock-api
+  name: Simpro Stock API
+  tags:
+  - Inventory
+  - Stock
+  - Catalog
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.simprogroup.com/apidoc/
+  baseURL: https://{build}.simprosuite.com/api/v1.0
+  properties:
+  - url: https://developer.simprogroup.com/apidoc/
+    type: APIReference
+  - url: openapi/simpro-openapi.yml
+    type: OpenAPI
+  description: List and retrieve catalog stock items held on storage devices
+    (warehouses, vans, and other locations), giving visibility into on-hand
+    inventory quantities across the business.
+- aid: simpro:simpro-webhooks-api
+  name: Simpro Webhooks API
+  tags:
+  - Webhooks
+  - Events
+  - Notifications
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://developer.simprogroup.com/apidoc/
+  baseURL: https://{build}.simprosuite.com/api/v1.0
+  properties:
+  - url: https://developer.simprogroup.com/apidoc/
+    type: APIReference
+  - url: openapi/simpro-openapi.yml
+    type: OpenAPI
+  description: Create, list, retrieve, update, and delete webhook subscriptions
+    under company setup. Simpro posts HTTPS callbacks to your endpoint when
+    subscribed build events occur - server-to-endpoint HTTP notifications, not a
+    streaming or WebSocket transport.
+common:
+- type: DomainSecurity
+  url: security/simpro-domain-security.yml
+- type: Authentication
+  url: authentication/simpro-authentication.yml
+- type: LinkedIn
+  url: https://www.linkedin.com/company/simpro-software
+- type: Website
+  url: https://www.simprogroup.com/
+- type: Documentation
+  url: https://developer.simprogroup.com/
+- type: Plans
+  url: plans/simpro-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/simpro-rate-limits.yml
+- type: FinOps
+  url: finops/simpro-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

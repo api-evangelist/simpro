@@ -1,0 +1,40 @@
+generated: '2026-07-12'
+method: probed
+source: live DNS/TLS/HTTP probes of apis.yml + documentation hosts
+notes: >-
+  The API itself is served per-build at https://{build}.simprosuite.com, so
+  there is no single global API host to probe. simprosuite.com is the parent
+  domain for customer build subdomains; the apex has no direct A record and
+  resolves through regional load balancers (e.g. au-lb.simprosuite.com). The
+  hosts probed below are the public website and developer/documentation hosts
+  referenced in apis.yml, both fronted by Cloudflare.
+hosts:
+- host: simprogroup.com
+  https: true
+  tls_version: TLSv1.3
+  cert_issuer: Google Trust Services (WE1)
+  cert_expires: Sep 24 06:29:55 2026 GMT
+  hsts: false
+- host: developer.simprogroup.com
+  https: true
+  tls_version: TLSv1.3
+  cert_issuer: Google Trust Services (WE1)
+  cert_expires: Sep 24 06:29:55 2026 GMT
+  hsts: false
+- host: simprosuite.com
+  https: true
+  note: Per-build API host parent domain; apex resolves via regional load balancers (au-lb.simprosuite.com). Individual builds are {build}.simprosuite.com.
+domains:
+- domain: simprogroup.com
+  dnssec: false
+  caa: []
+  spf: true
+  spf_policy: '~all'
+  dmarc: true
+  dmarc_policy: quarantine
+- domain: simprosuite.com
+  dnssec: false
+  caa: []
+  spf: true
+  spf_policy: '~all'
+  dmarc: not_probed

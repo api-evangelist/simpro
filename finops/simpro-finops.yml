@@ -1,0 +1,88 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Simpro
+providerId: simpro
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Field Service Management
+- Trades
+- SaaS
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Simpro spend. Simpro is a per-user SaaS subscription, so the
+  dominant cost driver is the number of user seats times the per-seat rate,
+  plus one-off implementation/onboarding and any add-on modules. The REST API
+  is included with the subscription and is not separately metered - there is no
+  per-call API charge - so API usage does not create a direct variable line
+  item. Because seat-based subscription cost is fixed monthly rather than
+  usage-metered, this record is marked reconciled:false and the per-seat rates
+  are indicative only.
+notes: >-
+  Simpro does not publish an authoritative price list; seat rates and onboarding
+  fees are quoted by sales. Verify actual invoiced amounts and seat counts on
+  your Simpro agreement during reconciliation. The main FinOps lever is seat
+  right-sizing (deactivating unused users) rather than API call optimization.
+sources:
+- https://www.simprogroup.com/
+- https://www.capterra.com/p/10529/Simpro-Enterprise/
+- https://developer.simprogroup.com/
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Simpro
+serviceCategory: Field Service Management Software
+billingModel:
+  pricingCategory: Subscription-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Purchase
+  - Usage
+meters:
+- name: user_seats
+  description: Number of active Simpro user seats subscribed; primary recurring cost driver, billed per seat.
+  unit: seats
+  aggregation: sum
+  dimensions:
+  - build
+  - company
+  - edition
+- name: onboarding
+  description: One-off implementation, migration, and training charge to stand up a build.
+  unit: engagement
+  aggregation: sum
+  dimensions:
+  - build
+- name: module_addons
+  description: Optional add-on modules enabled on the subscription.
+  unit: modules
+  aggregation: sum
+  dimensions:
+  - build
+- name: api_calls
+  description: REST API calls made against the build. Included in the subscription (not separately billed); tracked only against the 10 calls/sec rate limit.
+  unit: requests
+  aggregation: sum
+  dimensions:
+  - build
+principles:
+- name: Visibility
+  description: Track active seat counts and enabled modules per build/company; API calls are unbilled but should be monitored against the 10 calls/sec limit.
+- name: Allocation
+  description: Map seats and companies (on multi-company builds) to internal teams/cost centers so subscription cost is attributable.
+- name: Optimization
+  description: Right-size by deactivating unused seats and trimming unneeded modules; there is no per-call API fee to optimize, so focus on seat and module spend.
+- name: Accountability
+  description: Assign an owner for the Simpro agreement; review seat counts and module add-ons against the invoice each billing cycle.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

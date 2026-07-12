@@ -1,0 +1,55 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Simpro
+providerId: simpro
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Field Service Management
+- Trades
+- Job Management
+- Rate Limiting
+- Quotas
+description: >-
+  Simpro enforces an API rate limit of 10 calls per second, in effect since 9
+  August 2022. The limit is scoped to the whole Simpro domain (build), not to a
+  single user or company - so on a multi-company build, all companies and
+  integrations share the same budget. Requests over the limit receive an HTTP
+  429 response and should be retried with backoff. Simpro notes that most
+  integrations never reach the limit; only the highest-volume callers need to
+  manage it.
+notes: >-
+  The 10 calls/sec figure is documented in Simpro's API forum and FAQs rather
+  than as a fixed header-published quota. Verify the current limit and any
+  per-plan differences with Simpro during reconciliation. Use pagination
+  (pageSize / page) and the columns parameter to reduce the number and size of
+  calls.
+sources:
+- https://helpguide.simprogroup.com/Content/Service-and-Enterprise/API-FAQs.htm
+- https://apiforum.simprogroup.com/
+- https://developer.simprogroup.com/apidoc/
+responseCodes:
+  throttled: 429
+limits:
+- name: Overall API Rate
+  scope: build
+  metric: requests
+  limit: 10 per second
+  notes: Scoped to the whole Simpro domain/build; shared across companies and integrations on that build. Effective 9 August 2022.
+- name: Burst Handling
+  scope: build
+  metric: requests
+  limit: not published
+  notes: No separate burst allowance is documented; sustained rate above 10/sec returns HTTP 429.
+policies:
+- name: Backoff Strategy
+  description: On HTTP 429, back off and retry with exponential backoff and jitter.
+- name: Domain-Scoped Budget
+  description: The limit applies to the entire build, so coordinate multiple integrations and companies sharing one build to avoid collisions.
+- name: Request Minimization
+  description: Use pagination (pageSize / page), search filters, and the columns parameter to fetch only needed data and reduce call volume.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
