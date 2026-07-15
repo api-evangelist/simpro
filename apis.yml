@@ -214,6 +214,8 @@ apis:
     subscribed build events occur - server-to-endpoint HTTP notifications, not a
     streaming or WebSocket transport.
 common:
+- type: AgenticAccess
+  url: agentic-access/simpro-agentic-access.yml
 - type: DomainSecurity
   url: security/simpro-domain-security.yml
 - type: Authentication
