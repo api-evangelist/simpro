@@ -1,0 +1,232 @@
+openapi: 3.0.3
+info:
+  title: Simpro REST Companies Sites API
+  description: 'The Simpro (simPRO) REST API v1.0 provides a RESTful interface to view, create, and modify resources on a Simpro Premium build - the field service, trade, and project management platform. The API is hosted on each customer''s own build, so the host is per-build (for example https://your-build.simprosuite.com) and requests are authenticated with an OAuth2 Bearer access token issued by that same build''s /oauth2/token endpoint. Most resources are nested under a company: /api/v1.0/companies/{companyID}/... where companyID is 0 on single-company builds. This document models a representative, commonly used subset of the API - companies, customers, sites, jobs, quotes, invoices, schedules, vendor orders, cost centers, stock, and webhook subscriptions. The full published API covers 300+ resource types. Endpoint paths, HTTP methods, the common list/search query parameters, and the confirmed list/read response fields are grounded in Simpro''s published API reference; request bodies for create/update are modeled minimally and marked as such, because the real payloads are large and build-configuration dependent.'
+  version: '1.0'
+  contact:
+    name: Simpro Developer Center
+    url: https://developer.simprogroup.com/
+  x-access-model: Not a shared public API. Access requires an existing Simpro Premium subscription and API access enabled on that build; OAuth2 client credentials are provisioned per build by the account administrator. Base host is the customer's own build subdomain, not a single global endpoint.
+servers:
+- url: https://{build}.simprosuite.com/api/v1.0
+  description: Per-build Simpro Premium host. Replace {build} with your build subdomain.
+  variables:
+    build:
+      default: your-build
+      description: Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).
+security:
+- oauth2: []
+tags:
+- name: Sites
+  description: Customer sites and service locations.
+paths:
+  /companies/{companyID}/sites/:
+    parameters:
+    - $ref: '#/components/parameters/CompanyID'
+    get:
+      operationId: listSites
+      tags:
+      - Sites
+      summary: List all sites
+      parameters:
+      - $ref: '#/components/parameters/Search'
+      - $ref: '#/components/parameters/PageSize'
+      - $ref: '#/components/parameters/Page'
+      - $ref: '#/components/parameters/OrderBy'
+      responses:
+        '200':
+          description: A list of sites.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SiteListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createSite
+      tags:
+      - Sites
+      summary: Create a site
+      description: NOTE - request body is modeled minimally; see the Simpro API reference.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SiteInput'
+      responses:
+        '201':
+          description: The created site.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /companies/{companyID}/sites/{siteID}:
+    parameters:
+    - $ref: '#/components/parameters/CompanyID'
+    - $ref: '#/components/parameters/SiteID'
+    get:
+      operationId: getSite
+      tags:
+      - Sites
+      summary: Retrieve a site
+      responses:
+        '200':
+          description: The requested site.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateSite
+      tags:
+      - Sites
+      summary: Update a site
+      description: NOTE - request body is modeled minimally; see the Simpro API reference.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SiteInput'
+      responses:
+        '200':
+          description: The updated site.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SiteListItem'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    delete:
+      operationId: deleteSite
+      tags:
+      - Sites
+      summary: Delete a site
+      responses:
+        '204':
+          description: The site was deleted.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number on a paginated request.
+      schema:
+        type: integer
+    CompanyID:
+      name: companyID
+      in: path
+      required: true
+      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
+      schema:
+        type: integer
+        default: 0
+    OrderBy:
+      name: orderby
+      in: query
+      required: false
+      description: Order of the requested records. Prefix a column name with '-' for descending order. A comma-separated list may be provided.
+      schema:
+        type: array
+        items:
+          type: string
+      style: form
+      explode: false
+    PageSize:
+      name: pageSize
+      in: query
+      required: false
+      description: The maximum number of results to return per page.
+      schema:
+        type: integer
+    SiteID:
+      name: siteID
+      in: path
+      required: true
+      description: The site's ID.
+      schema:
+        type: integer
+    Search:
+      name: search
+      in: query
+      required: false
+      description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
+      schema:
+        type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid OAuth2 Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    SiteListItem:
+      type: object
+      description: Modeled from the sites resource. Verify field names against the Simpro API reference.
+      properties:
+        ID:
+          type: integer
+        Name:
+          type: string
+    SiteInput:
+      type: object
+      description: Modeled minimal create/update body for a site.
+      properties:
+        Name:
+          type: string
+    Error:
+      type: object
+      description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+              key:
+                type: string
+  securitySchemes:
+    oauth2:
+      type: oauth2
+      description: 'OAuth2 issued by the customer''s own Simpro build. Access tokens are obtained from https://{build}.simprosuite.com/oauth2/token and sent as `Authorization: Bearer ACCESS_TOKEN`. Both the client credentials and authorization code grants are supported depending on how the API application is registered on the build.'
+      flows:
+        clientCredentials:
+          tokenUrl: https://your-build.simprosuite.com/oauth2/token
+          scopes: {}
+        authorizationCode:
+          authorizationUrl: https://your-build.simprosuite.com/oauth2/authorize
+          tokenUrl: https://your-build.simprosuite.com/oauth2/token
+          scopes: {}
