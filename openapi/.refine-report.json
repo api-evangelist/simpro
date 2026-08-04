@@ -1,0 +1,34 @@
+{
+  "provider": "simpro",
+  "sources": [
+    "simpro-companies-api-openapi.yml",
+    "simpro-cost-centers-api-openapi.yml",
+    "simpro-customers-api-openapi.yml",
+    "simpro-invoices-api-openapi.yml",
+    "simpro-jobs-api-openapi.yml",
+    "simpro-quotes-api-openapi.yml",
+    "simpro-schedules-api-openapi.yml",
+    "simpro-sites-api-openapi.yml",
+    "simpro-stock-api-openapi.yml",
+    "simpro-vendor-orders-api-openapi.yml",
+    "simpro-webhooks-api-openapi.yml"
+  ],
+  "outputs": [
+    "simpro-companies-api-openapi.yml",
+    "simpro-cost-centers-api-openapi.yml",
+    "simpro-customers-api-openapi.yml",
+    "simpro-invoices-api-openapi.yml",
+    "simpro-jobs-api-openapi.yml",
+    "simpro-quotes-api-openapi.yml",
+    "simpro-schedules-api-openapi.yml",
+    "simpro-sites-api-openapi.yml",
+    "simpro-stock-api-openapi.yml",
+    "simpro-vendor-orders-api-openapi.yml",
+    "simpro-webhooks-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
