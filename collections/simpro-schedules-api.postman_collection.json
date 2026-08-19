@@ -1,0 +1,539 @@
+{
+  "item": [
+    {
+      "id": "ebac3ce5-6544-4781-9ec8-b330ad79098d",
+      "name": "Schedules",
+      "description": {
+        "content": "Resource and staff scheduling records.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "9d9052f0-1582-4fd2-8911-fd30303db2bd",
+          "name": "List all schedules",
+          "request": {
+            "name": "List all schedules",
+            "description": {},
+            "url": {
+              "path": [
+                "companies",
+                ":companyID",
+                "schedules",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Search filter. With search=all the result must match all provided fields; with search=any it may match any of them."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "The maximum number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "The page number on a paginated request."
+                },
+                {
+                  "disabled": false,
+                  "key": "orderby",
+                  "value": "<string>,<string>",
+                  "description": "Order of the requested records. Prefix a column name with '-' for descending order. A comma-separated list may be provided."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "0",
+                  "key": "companyID",
+                  "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                },
+                {
+                  "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                  "type": "any",
+                  "value": "{{build}}",
+                  "key": "build"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "6924f6d0-75a7-4e42-b5d4-a1a20134caec",
+              "name": "A list of schedule records.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "schedules",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "orderby",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"ID\": 1609,\n    \"Staff\": {\n      \"key_0\": 9912.791816682247,\n      \"key_1\": 5179.887546068002\n    },\n    \"Date\": \"2024-09-07\"\n  },\n  {\n    \"ID\": 6898,\n    \"Staff\": {\n      \"key_0\": 7593.27297241439,\n      \"key_1\": \"string\"\n    },\n    \"Date\": \"2000-05-13\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "e8aa133a-8a87-4887-b0f3-0382847a1959",
+              "name": "Missing or invalid OAuth2 Bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "schedules",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "orderby",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "986ff297-0bf9-4408-af09-a1e87557b80c",
+          "name": "Retrieve a schedule",
+          "request": {
+            "name": "Retrieve a schedule",
+            "description": {},
+            "url": {
+              "path": [
+                "companies",
+                ":companyID",
+                "schedules",
+                ":scheduleID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "0",
+                  "key": "companyID",
+                  "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "scheduleID",
+                  "description": "(Required) The schedule record's ID."
+                },
+                {
+                  "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                  "type": "any",
+                  "value": "{{build}}",
+                  "key": "build"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bc17e989-f3a2-4a0e-a15d-20b2d36b3173",
+              "name": "The requested schedule record.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "schedules",
+                    ":scheduleID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "scheduleID",
+                      "description": "(Required) The schedule record's ID."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": 197,\n  \"Staff\": {\n    \"key_0\": false\n  },\n  \"Date\": \"2000-06-21\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "99e45704-161c-4412-9fa6-4418ef50ac8f",
+              "name": "Missing or invalid OAuth2 Bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "schedules",
+                    ":scheduleID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "scheduleID",
+                      "description": "(Required) The schedule record's ID."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "93b58310-2e92-4d80-8051-030ee88c81e7",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "schedules",
+                    ":scheduleID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "scheduleID",
+                      "description": "(Required) The schedule record's ID."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "your-build",
+      "key": "build"
+    },
+    {
+      "type": "string",
+      "value": "https://{{build}}.simprosuite.com/api/v1.0",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "accessTokenUrl",
+        "value": "https://your-build.simprosuite.com/oauth2/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "a6aee0c0-6b62-4d58-8334-b32f0f02ef29",
+    "name": "Simpro REST Companies Schedules API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Simpro (simPRO) REST API v1.0 provides a RESTful interface to view, create, and modify resources on a Simpro Premium build - the field service, trade, and project management platform. The API is hosted on each customer's own build, so the host is per-build (for example https://your-build.simprosuite.com) and requests are authenticated with an OAuth2 Bearer access token issued by that same build's /oauth2/token endpoint. Most resources are nested under a company: /api/v1.0/companies/{companyID}/... where companyID is 0 on single-company builds. This document models a representative, commonly used subset of the API - companies, customers, sites, jobs, quotes, invoices, schedules, vendor orders, cost centers, stock, and webhook subscriptions. The full published API covers 300+ resource types. Endpoint paths, HTTP methods, the common list/search query parameters, and the confirmed list/read response fields are grounded in Simpro's published API reference; request bodies for create/update are modeled minimally and marked as such, because the real payloads are large and build-configuration dependent.\n\nContact Support:\n Name: Simpro Developer Center",
+      "type": "text/plain"
+    }
+  }
+}

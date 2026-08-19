@@ -1,0 +1,362 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Simpro REST Companies Customers API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://your-build.simprosuite.com/oauth2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Customers",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all customers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/customers/",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search filter. With search=all the result must match all provided fields; with search=any it may match any of them."
+              },
+              {
+                "name": "columns",
+                "value": "",
+                "type": "query",
+                "description": "When listing or searching a resource, specify which columns to display."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of results to return per page."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number on a paginated request."
+              },
+              {
+                "name": "orderby",
+                "value": "",
+                "type": "query",
+                "description": "Order of the requested records. Prefix a column name with '-' for descending order. A comma-separated list may be provided."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "The limit on the number of records in a request."
+              }
+            ]
+          },
+          "docs": "Lists all customers (both company and individual) for a company."
+        },
+        {
+          "info": {
+            "name": "List company customers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/customers/companies/",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search filter. With search=all the result must match all provided fields; with search=any it may match any of them."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of results to return per page."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number on a paginated request."
+              }
+            ]
+          },
+          "docs": "Lists customers that are companies (organizations)."
+        },
+        {
+          "info": {
+            "name": "Create a company customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/customers/companies/",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new company (organization) customer. NOTE - request body is modeled minimally; see the Simpro API reference for the full schema."
+        },
+        {
+          "info": {
+            "name": "Retrieve a company customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/customers/companies/:customerID",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "customerID",
+                "value": "",
+                "type": "path",
+                "description": "The customer's ID."
+              }
+            ]
+          },
+          "docs": "Retrieve a company customer"
+        },
+        {
+          "info": {
+            "name": "Update a company customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/customers/companies/:customerID",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "customerID",
+                "value": "",
+                "type": "path",
+                "description": "The customer's ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "NOTE - request body is modeled minimally; see the Simpro API reference."
+        },
+        {
+          "info": {
+            "name": "Delete a company customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/customers/companies/:customerID",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "customerID",
+                "value": "",
+                "type": "path",
+                "description": "The customer's ID."
+              }
+            ]
+          },
+          "docs": "Delete a company customer"
+        },
+        {
+          "info": {
+            "name": "List individual customers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/customers/individuals/",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search filter. With search=all the result must match all provided fields; with search=any it may match any of them."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of results to return per page."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number on a paginated request."
+              }
+            ]
+          },
+          "docs": "Lists customers that are individuals (people)."
+        },
+        {
+          "info": {
+            "name": "Create an individual customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/customers/individuals/",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "NOTE - request body is modeled minimally; see the Simpro API reference."
+        },
+        {
+          "info": {
+            "name": "Retrieve an individual customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/customers/individuals/:customerID",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "customerID",
+                "value": "",
+                "type": "path",
+                "description": "The customer's ID."
+              }
+            ]
+          },
+          "docs": "Retrieve an individual customer"
+        },
+        {
+          "info": {
+            "name": "Update an individual customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/customers/individuals/:customerID",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "customerID",
+                "value": "",
+                "type": "path",
+                "description": "The customer's ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "NOTE - request body is modeled minimally; see the Simpro API reference."
+        },
+        {
+          "info": {
+            "name": "Delete an individual customer",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/customers/individuals/:customerID",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "customerID",
+                "value": "",
+                "type": "path",
+                "description": "The customer's ID."
+              }
+            ]
+          },
+          "docs": "Delete an individual customer"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

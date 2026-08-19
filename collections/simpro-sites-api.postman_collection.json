@@ -1,0 +1,1358 @@
+{
+  "item": [
+    {
+      "id": "11f33bf8-ee2a-4eb9-8f31-0653c731ac9c",
+      "name": "Sites",
+      "description": {
+        "content": "Customer sites and service locations.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4e3f969e-8649-45b2-aaa4-99596198ff3b",
+          "name": "List all sites",
+          "request": {
+            "name": "List all sites",
+            "description": {},
+            "url": {
+              "path": [
+                "companies",
+                ":companyID",
+                "sites",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Search filter. With search=all the result must match all provided fields; with search=any it may match any of them."
+                },
+                {
+                  "disabled": false,
+                  "key": "pageSize",
+                  "value": "<integer>",
+                  "description": "The maximum number of results to return per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "<integer>",
+                  "description": "The page number on a paginated request."
+                },
+                {
+                  "disabled": false,
+                  "key": "orderby",
+                  "value": "<string>,<string>",
+                  "description": "Order of the requested records. Prefix a column name with '-' for descending order. A comma-separated list may be provided."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "0",
+                  "key": "companyID",
+                  "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                },
+                {
+                  "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                  "type": "any",
+                  "value": "{{build}}",
+                  "key": "build"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "43ba9c43-be5b-4ae5-b3e7-c493aece09b0",
+              "name": "A list of sites.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "sites",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "orderby",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"ID\": 6377,\n    \"Name\": \"string\"\n  },\n  {\n    \"ID\": 4835,\n    \"Name\": \"string\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "95695830-79bd-4f87-a6dd-21e5ac2e5592",
+              "name": "Missing or invalid OAuth2 Bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "sites",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "pageSize",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "page",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "orderby",
+                      "value": "<string>,<string>"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "71e802df-6296-44a2-ac89-8024f247681a",
+          "name": "Create a site",
+          "request": {
+            "name": "Create a site",
+            "description": {
+              "content": "NOTE - request body is modeled minimally; see the Simpro API reference.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "companies",
+                ":companyID",
+                "sites",
+                ""
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "0",
+                  "key": "companyID",
+                  "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                },
+                {
+                  "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                  "type": "any",
+                  "value": "{{build}}",
+                  "key": "build"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "3b28ff86-cbee-46c4-a27a-5e60a5d2d3f1",
+              "name": "The created site.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "sites",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": 3335,\n  \"Name\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "0df0e433-a6c2-4199-8a9b-c13bca14ccb2",
+              "name": "The request payload failed validation.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "sites",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "f53fdc8a-2dca-4cae-867c-286cdc2ecaf9",
+              "name": "Missing or invalid OAuth2 Bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "sites",
+                    ""
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "40c4caf9-ad95-4c41-9a81-084a189267b7",
+          "name": "Retrieve a site",
+          "request": {
+            "name": "Retrieve a site",
+            "description": {},
+            "url": {
+              "path": [
+                "companies",
+                ":companyID",
+                "sites",
+                ":siteID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "0",
+                  "key": "companyID",
+                  "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "siteID",
+                  "description": "(Required) The site's ID."
+                },
+                {
+                  "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                  "type": "any",
+                  "value": "{{build}}",
+                  "key": "build"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7746119a-2aa3-42fc-9098-a0e726168548",
+              "name": "The requested site.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "sites",
+                    ":siteID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "siteID",
+                      "description": "(Required) The site's ID."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": 3335,\n  \"Name\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "5c7668d2-6533-45fb-9ee1-c9ae4b81999c",
+              "name": "Missing or invalid OAuth2 Bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "sites",
+                    ":siteID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "siteID",
+                      "description": "(Required) The site's ID."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "62772cea-ea0c-4ba8-bd43-d186f8e87a5e",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "sites",
+                    ":siteID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "siteID",
+                      "description": "(Required) The site's ID."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c31d5f6d-aa24-4f53-a516-6c5a389f3e19",
+          "name": "Update a site",
+          "request": {
+            "name": "Update a site",
+            "description": {
+              "content": "NOTE - request body is modeled minimally; see the Simpro API reference.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "companies",
+                ":companyID",
+                "sites",
+                ":siteID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "0",
+                  "key": "companyID",
+                  "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "siteID",
+                  "description": "(Required) The site's ID."
+                },
+                {
+                  "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                  "type": "any",
+                  "value": "{{build}}",
+                  "key": "build"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "PATCH",
+            "auth": null,
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"Name\": \"<string>\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "response": [
+            {
+              "id": "fa3cf9e4-b948-4fc8-bc4d-6c4077cfb59a",
+              "name": "The updated site.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "sites",
+                    ":siteID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "siteID",
+                      "description": "(Required) The site's ID."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"ID\": 3335,\n  \"Name\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "aedcf5d4-3c56-4c9a-a0fb-1a15779e6a36",
+              "name": "Missing or invalid OAuth2 Bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "sites",
+                    ":siteID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "siteID",
+                      "description": "(Required) The site's ID."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c9728e4e-f36c-4e47-9d40-e901d83d5f26",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "sites",
+                    ":siteID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "siteID",
+                      "description": "(Required) The site's ID."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "PATCH",
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"Name\": \"<string>\"\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                }
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "bc8c29a1-fc9d-4e1d-9781-694b9da72460",
+          "name": "Delete a site",
+          "request": {
+            "name": "Delete a site",
+            "description": {},
+            "url": {
+              "path": [
+                "companies",
+                ":companyID",
+                "sites",
+                ":siteID"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "0",
+                  "key": "companyID",
+                  "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                },
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "siteID",
+                  "description": "(Required) The site's ID."
+                },
+                {
+                  "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                  "type": "any",
+                  "value": "{{build}}",
+                  "key": "build"
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "DELETE",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ff07fb3b-1b55-440f-a6a4-4062c13ada53",
+              "name": "The site was deleted.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "sites",
+                    ":siteID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "siteID",
+                      "description": "(Required) The site's ID."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "3c614fa4-719e-4108-87a7-92ea2cf0ee2c",
+              "name": "Missing or invalid OAuth2 Bearer token.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "sites",
+                    ":siteID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "siteID",
+                      "description": "(Required) The site's ID."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "b4512508-89eb-43dd-8824-2125ef9b3248",
+              "name": "The requested resource was not found.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "companies",
+                    ":companyID",
+                    "sites",
+                    ":siteID"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "0",
+                      "key": "companyID",
+                      "description": "(Required) The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+                    },
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "siteID",
+                      "description": "(Required) The site's ID."
+                    },
+                    {
+                      "description": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+                      "type": "any",
+                      "value": "{{build}}",
+                      "key": "build"
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: oauth2",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "<token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "DELETE",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"errors\": [\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    },\n    {\n      \"message\": \"string\",\n      \"key\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "description": {
+        "content": "Your Simpro Premium build subdomain - the same domain you use to log in to the Simpro staff portal (e.g. mycompany in mycompany.simprosuite.com).",
+        "type": "text/plain"
+      },
+      "type": "any",
+      "value": "your-build",
+      "key": "build"
+    },
+    {
+      "type": "string",
+      "value": "https://{{build}}.simprosuite.com/api/v1.0",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "oauth2",
+    "oauth2": [
+      {
+        "key": "accessTokenUrl",
+        "value": "https://your-build.simprosuite.com/oauth2/token"
+      },
+      {
+        "key": "grant_type",
+        "value": "client_credentials"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "b7d614a0-cebf-415c-8ddc-eb7362d339c2",
+    "name": "Simpro REST Companies Sites API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Simpro (simPRO) REST API v1.0 provides a RESTful interface to view, create, and modify resources on a Simpro Premium build - the field service, trade, and project management platform. The API is hosted on each customer's own build, so the host is per-build (for example https://your-build.simprosuite.com) and requests are authenticated with an OAuth2 Bearer access token issued by that same build's /oauth2/token endpoint. Most resources are nested under a company: /api/v1.0/companies/{companyID}/... where companyID is 0 on single-company builds. This document models a representative, commonly used subset of the API - companies, customers, sites, jobs, quotes, invoices, schedules, vendor orders, cost centers, stock, and webhook subscriptions. The full published API covers 300+ resource types. Endpoint paths, HTTP methods, the common list/search query parameters, and the confirmed list/read response fields are grounded in Simpro's published API reference; request bodies for create/update are modeled minimally and marked as such, because the real payloads are large and build-configuration dependent.\n\nContact Support:\n Name: Simpro Developer Center",
+      "type": "text/plain"
+    }
+  }
+}

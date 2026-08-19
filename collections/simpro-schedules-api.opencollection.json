@@ -1,0 +1,97 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Simpro REST Companies Schedules API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://your-build.simprosuite.com/oauth2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Schedules",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all schedules",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/schedules/",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search filter. With search=all the result must match all provided fields; with search=any it may match any of them."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of results to return per page."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number on a paginated request."
+              },
+              {
+                "name": "orderby",
+                "value": "",
+                "type": "query",
+                "description": "Order of the requested records. Prefix a column name with '-' for descending order. A comma-separated list may be provided."
+              }
+            ]
+          },
+          "docs": "List all schedules"
+        },
+        {
+          "info": {
+            "name": "Retrieve a schedule",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/schedules/:scheduleID",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "scheduleID",
+                "value": "",
+                "type": "path",
+                "description": "The schedule record's ID."
+              }
+            ]
+          },
+          "docs": "Retrieve a schedule"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

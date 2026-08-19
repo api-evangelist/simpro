@@ -1,0 +1,150 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Simpro REST Companies Webhooks API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://your-build.simprosuite.com/oauth2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Webhooks",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all webhook subscriptions",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/setup/webhooks/",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              }
+            ]
+          },
+          "docs": "List all webhook subscriptions"
+        },
+        {
+          "info": {
+            "name": "Create a webhook subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/setup/webhooks/",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Subscribes an HTTPS callback URL to build events. NOTE - request body is modeled minimally; see the Simpro API reference for the full schema."
+        },
+        {
+          "info": {
+            "name": "Retrieve a webhook subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/setup/webhooks/:webhookID",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "webhookID",
+                "value": "",
+                "type": "path",
+                "description": "The webhook subscription's ID."
+              }
+            ]
+          },
+          "docs": "Retrieve a webhook subscription"
+        },
+        {
+          "info": {
+            "name": "Update a webhook subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/setup/webhooks/:webhookID",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "webhookID",
+                "value": "",
+                "type": "path",
+                "description": "The webhook subscription's ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "NOTE - request body is modeled minimally; see the Simpro API reference."
+        },
+        {
+          "info": {
+            "name": "Delete a webhook subscription",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/setup/webhooks/:webhookID",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "webhookID",
+                "value": "",
+                "type": "path",
+                "description": "The webhook subscription's ID."
+              }
+            ]
+          },
+          "docs": "Delete a webhook subscription"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

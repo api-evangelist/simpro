@@ -1,0 +1,174 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Simpro REST Companies Quotes API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://your-build.simprosuite.com/oauth2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Quotes",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all quotes",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/quotes/",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search filter. With search=all the result must match all provided fields; with search=any it may match any of them."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of results to return per page."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number on a paginated request."
+              },
+              {
+                "name": "orderby",
+                "value": "",
+                "type": "query",
+                "description": "Order of the requested records. Prefix a column name with '-' for descending order. A comma-separated list may be provided."
+              }
+            ]
+          },
+          "docs": "List all quotes"
+        },
+        {
+          "info": {
+            "name": "Create a quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/quotes/",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "NOTE - request body is modeled minimally; see the Simpro API reference."
+        },
+        {
+          "info": {
+            "name": "Retrieve a quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/quotes/:quoteID",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "quoteID",
+                "value": "",
+                "type": "path",
+                "description": "The quote's ID."
+              }
+            ]
+          },
+          "docs": "Retrieve a quote"
+        },
+        {
+          "info": {
+            "name": "Update a quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/quotes/:quoteID",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "quoteID",
+                "value": "",
+                "type": "path",
+                "description": "The quote's ID."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "NOTE - request body is modeled minimally; see the Simpro API reference."
+        },
+        {
+          "info": {
+            "name": "Delete a quote",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/quotes/:quoteID",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "quoteID",
+                "value": "",
+                "type": "path",
+                "description": "The quote's ID."
+              }
+            ]
+          },
+          "docs": "Delete a quote"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

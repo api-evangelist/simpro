@@ -1,0 +1,103 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Simpro REST Companies Stock API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "oauth2",
+      "flow": "client_credentials",
+      "accessTokenUrl": "https://your-build.simprosuite.com/oauth2/token",
+      "credentials": {
+        "clientId": "{{clientId}}",
+        "clientSecret": "{{clientSecret}}"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Stock",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List stock on a storage device",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/storageDevices/:storageDeviceID/stock/",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "storageDeviceID",
+                "value": "",
+                "type": "path",
+                "description": "The storage device's ID."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Search filter. With search=all the result must match all provided fields; with search=any it may match any of them."
+              },
+              {
+                "name": "pageSize",
+                "value": "",
+                "type": "query",
+                "description": "The maximum number of results to return per page."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "The page number on a paginated request."
+              }
+            ]
+          },
+          "docs": "Lists the catalog stock items held on a given storage device."
+        },
+        {
+          "info": {
+            "name": "Retrieve a stock item",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://{build}.simprosuite.com/api/v1.0/companies/:companyID/storageDevices/:storageDeviceID/stock/:catalogID",
+            "params": [
+              {
+                "name": "companyID",
+                "value": "",
+                "type": "path",
+                "description": "The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default."
+              },
+              {
+                "name": "storageDeviceID",
+                "value": "",
+                "type": "path",
+                "description": "The storage device's ID."
+              },
+              {
+                "name": "catalogID",
+                "value": "",
+                "type": "path",
+                "description": "The catalog item's ID."
+              }
+            ]
+          },
+          "docs": "Retrieve a stock item"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
