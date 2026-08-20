@@ -36,6 +36,17 @@ tags:
 - Inventory
 - Estimating
 - Workforce
+- Software-as-a-Service
+- Contractors
+tags_raw:
+- Field Service Management
+- Trades
+- Job Management
+- Project Management
+- Scheduling
+- Inventory
+- Estimating
+- Workforce
 - SaaS
 - Contractors
 created: '2026-07-12'
@@ -104,6 +115,8 @@ apis:
   humanURL: https://developer.simprogroup.com/apidoc/
   baseURL: https://{build}.simprosuite.com/api/v1.0
   tags:
+  - Job
+  tags_raw:
   - Jobs
   properties:
   - type: OpenAPI
@@ -188,6 +201,8 @@ apis:
   humanURL: https://developer.simprogroup.com/apidoc/
   baseURL: https://{build}.simprosuite.com/api/v1.0
   tags:
+  - Webhook
+  tags_raw:
   - Webhooks
   properties:
   - type: OpenAPI
