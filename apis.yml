@@ -13,6 +13,18 @@ description: Simpro (simPRO) is field service management and project/business
   administrator. Resources are nested under a company at
   /api/v1.0/companies/{companyID}/... where companyID is 0 on single-company
   builds.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 accessModel:
   pricing: paid
   onboarding: self-serve
