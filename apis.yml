@@ -41,7 +41,7 @@ accessModel:
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/simpro.png
 tags:
 - Field Service Management
-- Trades
+- Trade
 - Job Management
 - Project Management
 - Scheduling
@@ -157,6 +157,8 @@ apis:
   humanURL: https://developer.simprogroup.com/apidoc/
   baseURL: https://{build}.simprosuite.com/api/v1.0
   tags:
+  - Schedule
+  tags_raw:
   - Schedules
   properties:
   - type: OpenAPI
@@ -185,6 +187,8 @@ apis:
   humanURL: https://developer.simprogroup.com/apidoc/
   baseURL: https://{build}.simprosuite.com/api/v1.0
   tags:
+  - Stocks
+  tags_raw:
   - Stock
   properties:
   - type: OpenAPI
