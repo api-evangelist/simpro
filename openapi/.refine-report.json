@@ -1,17 +1,7 @@
 {
   "provider": "simpro",
   "sources": [
-    "simpro-companies-api-openapi.yml",
-    "simpro-cost-centers-api-openapi.yml",
-    "simpro-customers-api-openapi.yml",
-    "simpro-invoices-api-openapi.yml",
-    "simpro-jobs-api-openapi.yml",
-    "simpro-quotes-api-openapi.yml",
-    "simpro-schedules-api-openapi.yml",
-    "simpro-sites-api-openapi.yml",
-    "simpro-stock-api-openapi.yml",
-    "simpro-vendor-orders-api-openapi.yml",
-    "simpro-webhooks-api-openapi.yml"
+    "_original/simpro-openapi.yml"
   ],
   "outputs": [
     "simpro-companies-api-openapi.yml",
@@ -29,6 +19,22 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "simpro-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "simpro-companies-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpro-cost-centers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpro-customers-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpro-invoices-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpro-jobs-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpro-quotes-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpro-schedules-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpro-sites-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpro-stock-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpro-vendor-orders-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "simpro-webhooks-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

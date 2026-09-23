@@ -1,0 +1,30 @@
+# Front Door AI Index — simpro — 2026-09-17
+# AI vocabulary counted on the provider's root page. Generated; do not edit.
+# `score` is null unless ownership is `own` — see front_door_ai.py.
+front_door_ai:
+  slug: simpro
+  lexicon_version: '1.0'
+  probed_at: '2026-09-17'
+  host: www.simprogroup.com
+  final_host: www.simprogroup.com
+  ownership: own
+  owner: simpro
+  shares_host_with: null
+  inherited_from: null
+  verdict: scored
+  score: 26
+  host_score: 26
+  density: 8.87
+  words: 2930
+  tiers:
+    agentic: 4
+    core: 22
+    model: 0
+  ambiguous: 21
+  top_terms:
+    AI: 22
+    agent: 13
+    intelligence: 7
+    AI agent: 2
+    prompts: 2
+    automation: 1

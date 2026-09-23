@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Simpro REST Companies Jobs API
-  description: 'The Simpro (simPRO) REST API v1.0 provides a RESTful interface to view, create, and modify resources on a Simpro Premium build - the field service, trade, and project management platform. The API is hosted on each customer''s own build, so the host is per-build (for example https://your-build.simprosuite.com) and requests are authenticated with an OAuth2 Bearer access token issued by that same build''s /oauth2/token endpoint. Most resources are nested under a company: /api/v1.0/companies/{companyID}/... where companyID is 0 on single-company builds. This document models a representative, commonly used subset of the API - companies, customers, sites, jobs, quotes, invoices, schedules, vendor orders, cost centers, stock, and webhook subscriptions. The full published API covers 300+ resource types. Endpoint paths, HTTP methods, the common list/search query parameters, and the confirmed list/read response fields are grounded in Simpro''s published API reference; request bodies for create/update are modeled minimally and marked as such, because the real payloads are large and build-configuration dependent.'
+  title: Simpro REST Jobs API
+  description: The Simpro (simPRO) REST API v1.0 provides a RESTful interface to view, create, and modify resources on a Simpro Premium build - the field service, trade, and project management platform.
   version: '1.0'
   contact:
     name: Simpro Developer Center
@@ -126,6 +126,16 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    JobInput:
+      type: object
+      description: Modeled minimal create body. Real job creation accepts many more fields; see the Simpro API reference.
+      properties:
+        CustomerID:
+          type: integer
+        SiteID:
+          type: integer
+        Description:
+          type: string
     JobListItem:
       type: object
       description: Confirmed fields from the jobs list response.
@@ -145,16 +155,6 @@ components:
               type: number
             IncTax:
               type: number
-    JobInput:
-      type: object
-      description: Modeled minimal create body. Real job creation accepts many more fields; see the Simpro API reference.
-      properties:
-        CustomerID:
-          type: integer
-        SiteID:
-          type: integer
-        Description:
-          type: string
     Error:
       type: object
       description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
@@ -169,13 +169,6 @@ components:
               key:
                 type: string
   parameters:
-    JobID:
-      name: jobID
-      in: path
-      required: true
-      description: The job's ID.
-      schema:
-        type: integer
     Limit:
       name: limit
       in: query
@@ -183,11 +176,29 @@ components:
       description: The limit on the number of records in a request.
       schema:
         type: integer
-    Page:
-      name: page
+    Columns:
+      name: columns
       in: query
       required: false
-      description: The page number on a paginated request.
+      description: When listing or searching a resource, specify which columns to display.
+      schema:
+        type: array
+        items:
+          type: string
+      style: form
+      explode: false
+    PageSize:
+      name: pageSize
+      in: query
+      required: false
+      description: The maximum number of results to return per page.
+      schema:
+        type: integer
+    JobID:
+      name: jobID
+      in: path
+      required: true
+      description: The job's ID.
       schema:
         type: integer
     CompanyID:
@@ -209,24 +220,6 @@ components:
           type: string
       style: form
       explode: false
-    PageSize:
-      name: pageSize
-      in: query
-      required: false
-      description: The maximum number of results to return per page.
-      schema:
-        type: integer
-    Columns:
-      name: columns
-      in: query
-      required: false
-      description: When listing or searching a resource, specify which columns to display.
-      schema:
-        type: array
-        items:
-          type: string
-      style: form
-      explode: false
     Search:
       name: search
       in: query
@@ -234,15 +227,22 @@ components:
       description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
       schema:
         type: string
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number on a paginated request.
+      schema:
+        type: integer
   responses:
-    Unauthorized:
-      description: Missing or invalid OAuth2 Bearer token.
+    BadRequest:
+      description: The request payload failed validation.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request payload failed validation.
+    Unauthorized:
+      description: Missing or invalid OAuth2 Bearer token.
       content:
         application/json:
           schema:

@@ -1,7 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Simpro REST Companies Webhooks API
-  description: 'The Simpro (simPRO) REST API v1.0 provides a RESTful interface to view, create, and modify resources on a Simpro Premium build - the field service, trade, and project management platform. The API is hosted on each customer''s own build, so the host is per-build (for example https://your-build.simprosuite.com) and requests are authenticated with an OAuth2 Bearer access token issued by that same build''s /oauth2/token endpoint. Most resources are nested under a company: /api/v1.0/companies/{companyID}/... where companyID is 0 on single-company builds. This document models a representative, commonly used subset of the API - companies, customers, sites, jobs, quotes, invoices, schedules, vendor orders, cost centers, stock, and webhook subscriptions. The full published API covers 300+ resource types. Endpoint paths, HTTP methods, the common list/search query parameters, and the confirmed list/read response fields are grounded in Simpro''s published API reference; request bodies for create/update are modeled minimally and marked as such, because the real payloads are large and build-configuration dependent.'
+  title: Simpro REST Webhooks API
+  description: The Simpro (simPRO) REST API v1.0 provides a RESTful interface to view, create, and modify resources on a Simpro Premium build - the field service, trade, and project management platform.
   version: '1.0'
   contact:
     name: Simpro Developer Center
@@ -119,6 +119,17 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    WebhookListItem:
+      type: object
+      description: Modeled from the webhook subscriptions resource. Verify field names against the Simpro API reference.
+      properties:
+        ID:
+          type: integer
+        Reference:
+          type: string
+        CallbackURL:
+          type: string
+          format: uri
     WebhookInput:
       type: object
       description: Modeled minimal create/update body for a webhook subscription.
@@ -132,17 +143,6 @@ components:
           type: array
           items:
             type: string
-    WebhookListItem:
-      type: object
-      description: Modeled from the webhook subscriptions resource. Verify field names against the Simpro API reference.
-      properties:
-        ID:
-          type: integer
-        Reference:
-          type: string
-        CallbackURL:
-          type: string
-          format: uri
     Error:
       type: object
       description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
@@ -157,14 +157,14 @@ components:
               key:
                 type: string
   responses:
-    Unauthorized:
-      description: Missing or invalid OAuth2 Bearer token.
+    BadRequest:
+      description: The request payload failed validation.
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request payload failed validation.
+    Unauthorized:
+      description: Missing or invalid OAuth2 Bearer token.
       content:
         application/json:
           schema:
@@ -176,13 +176,6 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   parameters:
-    WebhookID:
-      name: webhookID
-      in: path
-      required: true
-      description: The webhook subscription's ID.
-      schema:
-        type: integer
     CompanyID:
       name: companyID
       in: path
@@ -191,6 +184,13 @@ components:
       schema:
         type: integer
         default: 0
+    WebhookID:
+      name: webhookID
+      in: path
+      required: true
+      description: The webhook subscription's ID.
+      schema:
+        type: integer
   securitySchemes:
     oauth2:
       type: oauth2
