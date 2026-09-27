@@ -65,6 +65,19 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid OAuth2 Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     ScheduleListItem:
       type: object
@@ -92,20 +105,6 @@ components:
               key:
                 type: string
   parameters:
-    PageSize:
-      name: pageSize
-      in: query
-      required: false
-      description: The maximum number of results to return per page.
-      schema:
-        type: integer
-    ScheduleID:
-      name: scheduleID
-      in: path
-      required: true
-      description: The schedule record's ID.
-      schema:
-        type: integer
     CompanyID:
       name: companyID
       in: path
@@ -125,13 +124,13 @@ components:
           type: string
       style: form
       explode: false
-    Search:
-      name: search
+    PageSize:
+      name: pageSize
       in: query
       required: false
-      description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
+      description: The maximum number of results to return per page.
       schema:
-        type: string
+        type: integer
     Page:
       name: page
       in: query
@@ -139,19 +138,20 @@ components:
       description: The page number on a paginated request.
       schema:
         type: integer
-  responses:
-    Unauthorized:
-      description: Missing or invalid OAuth2 Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
+    ScheduleID:
+      name: scheduleID
+      in: path
+      required: true
+      description: The schedule record's ID.
+      schema:
+        type: integer
+    Search:
+      name: search
+      in: query
+      required: false
+      description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
+      schema:
+        type: string
   securitySchemes:
     oauth2:
       type: oauth2

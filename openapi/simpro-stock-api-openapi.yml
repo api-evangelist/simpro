@@ -67,6 +67,63 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid OAuth2 Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    CompanyID:
+      name: companyID
+      in: path
+      required: true
+      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
+      schema:
+        type: integer
+        default: 0
+    CatalogID:
+      name: catalogID
+      in: path
+      required: true
+      description: The catalog item's ID.
+      schema:
+        type: integer
+    PageSize:
+      name: pageSize
+      in: query
+      required: false
+      description: The maximum number of results to return per page.
+      schema:
+        type: integer
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number on a paginated request.
+      schema:
+        type: integer
+    StorageDeviceID:
+      name: storageDeviceID
+      in: path
+      required: true
+      description: The storage device's ID.
+      schema:
+        type: integer
+    Search:
+      name: search
+      in: query
+      required: false
+      description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
+      schema:
+        type: string
   schemas:
     StockListItem:
       type: object
@@ -90,63 +147,6 @@ components:
                 type: string
               key:
                 type: string
-  parameters:
-    PageSize:
-      name: pageSize
-      in: query
-      required: false
-      description: The maximum number of results to return per page.
-      schema:
-        type: integer
-    CompanyID:
-      name: companyID
-      in: path
-      required: true
-      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
-      schema:
-        type: integer
-        default: 0
-    StorageDeviceID:
-      name: storageDeviceID
-      in: path
-      required: true
-      description: The storage device's ID.
-      schema:
-        type: integer
-    CatalogID:
-      name: catalogID
-      in: path
-      required: true
-      description: The catalog item's ID.
-      schema:
-        type: integer
-    Search:
-      name: search
-      in: query
-      required: false
-      description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
-      schema:
-        type: string
-    Page:
-      name: page
-      in: query
-      required: false
-      description: The page number on a paginated request.
-      schema:
-        type: integer
-  responses:
-    Unauthorized:
-      description: Missing or invalid OAuth2 Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     oauth2:
       type: oauth2

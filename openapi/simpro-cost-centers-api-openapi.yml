@@ -122,50 +122,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    CostCenterID:
-      name: costCenterID
-      in: path
-      required: true
-      description: The cost center's ID.
-      schema:
-        type: integer
-    PageSize:
-      name: pageSize
-      in: query
-      required: false
-      description: The maximum number of results to return per page.
-      schema:
-        type: integer
-    CompanyID:
-      name: companyID
-      in: path
-      required: true
-      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
-      schema:
-        type: integer
-        default: 0
-    Search:
-      name: search
-      in: query
-      required: false
-      description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
-      schema:
-        type: string
-    Page:
-      name: page
-      in: query
-      required: false
-      description: The page number on a paginated request.
-      schema:
-        type: integer
   responses:
-    BadRequest:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Missing or invalid OAuth2 Bearer token.
       content:
@@ -178,6 +135,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   schemas:
     CostCenterListItem:
       type: object
@@ -185,6 +148,12 @@ components:
       properties:
         ID:
           type: integer
+        Name:
+          type: string
+    CostCenterInput:
+      type: object
+      description: Modeled minimal create/update body for a cost center.
+      properties:
         Name:
           type: string
     Error:
@@ -200,12 +169,43 @@ components:
                 type: string
               key:
                 type: string
-    CostCenterInput:
-      type: object
-      description: Modeled minimal create/update body for a cost center.
-      properties:
-        Name:
-          type: string
+  parameters:
+    CostCenterID:
+      name: costCenterID
+      in: path
+      required: true
+      description: The cost center's ID.
+      schema:
+        type: integer
+    CompanyID:
+      name: companyID
+      in: path
+      required: true
+      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
+      schema:
+        type: integer
+        default: 0
+    PageSize:
+      name: pageSize
+      in: query
+      required: false
+      description: The maximum number of results to return per page.
+      schema:
+        type: integer
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number on a paginated request.
+      schema:
+        type: integer
+    Search:
+      name: search
+      in: query
+      required: false
+      description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
+      schema:
+        type: string
   securitySchemes:
     oauth2:
       type: oauth2

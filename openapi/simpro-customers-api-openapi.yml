@@ -253,6 +253,29 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    CustomerInput:
+      type: object
+      description: Modeled minimal create/update body. The real Simpro customer payload has many more fields (address, contacts, pricing, tax, custom fields).
+      properties:
+        CompanyName:
+          type: string
+        GivenName:
+          type: string
+        FamilyName:
+          type: string
+    Error:
+      type: object
+      description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+              key:
+                type: string
     CustomerListItem:
       type: object
       description: Confirmed fields from the customers list response.
@@ -272,30 +295,14 @@ components:
         FamilyName:
           type: string
           description: Family / last name (individual customers).
-    Error:
-      type: object
-      description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              message:
-                type: string
-              key:
-                type: string
-    CustomerInput:
-      type: object
-      description: Modeled minimal create/update body. The real Simpro customer payload has many more fields (address, contacts, pricing, tax, custom fields).
-      properties:
-        CompanyName:
-          type: string
-        GivenName:
-          type: string
-        FamilyName:
-          type: string
   parameters:
+    CustomerID:
+      name: customerID
+      in: path
+      required: true
+      description: The customer's ID.
+      schema:
+        type: integer
     Limit:
       name: limit
       in: query
@@ -303,6 +310,17 @@ components:
       description: The limit on the number of records in a request.
       schema:
         type: integer
+    OrderBy:
+      name: orderby
+      in: query
+      required: false
+      description: Order of the requested records. Prefix a column name with '-' for descending order. A comma-separated list may be provided.
+      schema:
+        type: array
+        items:
+          type: string
+      style: form
+      explode: false
     Columns:
       name: columns
       in: query
@@ -321,6 +339,13 @@ components:
       description: The maximum number of results to return per page.
       schema:
         type: integer
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number on a paginated request.
+      schema:
+        type: integer
     CompanyID:
       name: companyID
       in: path
@@ -329,24 +354,6 @@ components:
       schema:
         type: integer
         default: 0
-    CustomerID:
-      name: customerID
-      in: path
-      required: true
-      description: The customer's ID.
-      schema:
-        type: integer
-    OrderBy:
-      name: orderby
-      in: query
-      required: false
-      description: Order of the requested records. Prefix a column name with '-' for descending order. A comma-separated list may be provided.
-      schema:
-        type: array
-        items:
-          type: string
-      style: form
-      explode: false
     Search:
       name: search
       in: query
@@ -354,20 +361,7 @@ components:
       description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
       schema:
         type: string
-    Page:
-      name: page
-      in: query
-      required: false
-      description: The page number on a paginated request.
-      schema:
-        type: integer
   responses:
-    BadRequest:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Missing or invalid OAuth2 Bearer token.
       content:
@@ -376,6 +370,12 @@ components:
             $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request payload failed validation.
       content:
         application/json:
           schema:
