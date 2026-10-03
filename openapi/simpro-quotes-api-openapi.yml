@@ -123,33 +123,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid OAuth2 Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
-    QuoteID:
-      name: quoteID
-      in: path
-      required: true
-      description: The quote's ID.
-      schema:
-        type: integer
     CompanyID:
       name: companyID
       in: path
@@ -158,6 +132,13 @@ components:
       schema:
         type: integer
         default: 0
+    QuoteID:
+      name: quoteID
+      in: path
+      required: true
+      description: The quote's ID.
+      schema:
+        type: integer
     PageSize:
       name: pageSize
       in: query
@@ -176,13 +157,6 @@ components:
           type: string
       style: form
       explode: false
-    Page:
-      name: page
-      in: query
-      required: false
-      description: The page number on a paginated request.
-      schema:
-        type: integer
     Search:
       name: search
       in: query
@@ -190,7 +164,24 @@ components:
       description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
       schema:
         type: string
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number on a paginated request.
+      schema:
+        type: integer
   schemas:
+    QuoteInput:
+      type: object
+      description: Modeled minimal create/update body for a quote.
+      properties:
+        CustomerID:
+          type: integer
+        SiteID:
+          type: integer
+        Description:
+          type: string
     QuoteListItem:
       type: object
       description: Modeled from the quotes resource. Verify field names against the Simpro API reference.
@@ -208,16 +199,6 @@ components:
               type: number
             IncTax:
               type: number
-    QuoteInput:
-      type: object
-      description: Modeled minimal create/update body for a quote.
-      properties:
-        CustomerID:
-          type: integer
-        SiteID:
-          type: integer
-        Description:
-          type: string
     Error:
       type: object
       description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
@@ -231,6 +212,25 @@ components:
                 type: string
               key:
                 type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid OAuth2 Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     oauth2:
       type: oauth2

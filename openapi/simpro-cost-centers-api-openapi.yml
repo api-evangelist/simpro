@@ -122,61 +122,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid OAuth2 Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  schemas:
-    CostCenterListItem:
-      type: object
-      description: Modeled from the cost centers resource. Verify field names against the Simpro API reference.
-      properties:
-        ID:
-          type: integer
-        Name:
-          type: string
-    CostCenterInput:
-      type: object
-      description: Modeled minimal create/update body for a cost center.
-      properties:
-        Name:
-          type: string
-    Error:
-      type: object
-      description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              message:
-                type: string
-              key:
-                type: string
   parameters:
-    CostCenterID:
-      name: costCenterID
-      in: path
-      required: true
-      description: The cost center's ID.
-      schema:
-        type: integer
     CompanyID:
       name: companyID
       in: path
@@ -192,11 +138,11 @@ components:
       description: The maximum number of results to return per page.
       schema:
         type: integer
-    Page:
-      name: page
-      in: query
-      required: false
-      description: The page number on a paginated request.
+    CostCenterID:
+      name: costCenterID
+      in: path
+      required: true
+      description: The cost center's ID.
       schema:
         type: integer
     Search:
@@ -206,6 +152,60 @@ components:
       description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
       schema:
         type: string
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number on a paginated request.
+      schema:
+        type: integer
+  schemas:
+    CostCenterListItem:
+      type: object
+      description: Modeled from the cost centers resource. Verify field names against the Simpro API reference.
+      properties:
+        ID:
+          type: integer
+        Name:
+          type: string
+    Error:
+      type: object
+      description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+              key:
+                type: string
+    CostCenterInput:
+      type: object
+      description: Modeled minimal create/update body for a cost center.
+      properties:
+        Name:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid OAuth2 Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     oauth2:
       type: oauth2

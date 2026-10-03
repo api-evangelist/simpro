@@ -125,91 +125,6 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid OAuth2 Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  parameters:
-    Limit:
-      name: limit
-      in: query
-      required: false
-      description: The limit on the number of records in a request.
-      schema:
-        type: integer
-    OrderBy:
-      name: orderby
-      in: query
-      required: false
-      description: Order of the requested records. Prefix a column name with '-' for descending order. A comma-separated list may be provided.
-      schema:
-        type: array
-        items:
-          type: string
-      style: form
-      explode: false
-    JobID:
-      name: jobID
-      in: path
-      required: true
-      description: The job's ID.
-      schema:
-        type: integer
-    Columns:
-      name: columns
-      in: query
-      required: false
-      description: When listing or searching a resource, specify which columns to display.
-      schema:
-        type: array
-        items:
-          type: string
-      style: form
-      explode: false
-    Page:
-      name: page
-      in: query
-      required: false
-      description: The page number on a paginated request.
-      schema:
-        type: integer
-    PageSize:
-      name: pageSize
-      in: query
-      required: false
-      description: The maximum number of results to return per page.
-      schema:
-        type: integer
-    CompanyID:
-      name: companyID
-      in: path
-      required: true
-      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
-      schema:
-        type: integer
-        default: 0
-    Search:
-      name: search
-      in: query
-      required: false
-      description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
-      schema:
-        type: string
   schemas:
     JobListItem:
       type: object
@@ -253,6 +168,91 @@ components:
                 type: string
               key:
                 type: string
+  parameters:
+    CompanyID:
+      name: companyID
+      in: path
+      required: true
+      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
+      schema:
+        type: integer
+        default: 0
+    JobID:
+      name: jobID
+      in: path
+      required: true
+      description: The job's ID.
+      schema:
+        type: integer
+    PageSize:
+      name: pageSize
+      in: query
+      required: false
+      description: The maximum number of results to return per page.
+      schema:
+        type: integer
+    OrderBy:
+      name: orderby
+      in: query
+      required: false
+      description: Order of the requested records. Prefix a column name with '-' for descending order. A comma-separated list may be provided.
+      schema:
+        type: array
+        items:
+          type: string
+      style: form
+      explode: false
+    Columns:
+      name: columns
+      in: query
+      required: false
+      description: When listing or searching a resource, specify which columns to display.
+      schema:
+        type: array
+        items:
+          type: string
+      style: form
+      explode: false
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: The limit on the number of records in a request.
+      schema:
+        type: integer
+    Search:
+      name: search
+      in: query
+      required: false
+      description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
+      schema:
+        type: string
+    Page:
+      name: page
+      in: query
+      required: false
+      description: The page number on a paginated request.
+      schema:
+        type: integer
+  responses:
+    Unauthorized:
+      description: Missing or invalid OAuth2 Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    BadRequest:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     oauth2:
       type: oauth2
