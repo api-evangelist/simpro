@@ -228,6 +228,9 @@ apis:
   - type: APIReference
     url: https://developer.simprogroup.com/apidoc/
 common:
+- type: CapabilityMap
+  url: capabilities/simpro-capability-edges.yml
+  name: Simpro Business Capability Map
 - type: AgenticAccess
   url: agentic-access/simpro-agentic-access.yml
 - type: DomainSecurity
