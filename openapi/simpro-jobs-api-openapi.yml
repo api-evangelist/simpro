@@ -126,6 +126,19 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    Error:
+      type: object
+      description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+              key:
+                type: string
     JobListItem:
       type: object
       description: Confirmed fields from the jobs list response.
@@ -155,53 +168,7 @@ components:
           type: integer
         Description:
           type: string
-    Error:
-      type: object
-      description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              message:
-                type: string
-              key:
-                type: string
   parameters:
-    CompanyID:
-      name: companyID
-      in: path
-      required: true
-      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
-      schema:
-        type: integer
-        default: 0
-    JobID:
-      name: jobID
-      in: path
-      required: true
-      description: The job's ID.
-      schema:
-        type: integer
-    PageSize:
-      name: pageSize
-      in: query
-      required: false
-      description: The maximum number of results to return per page.
-      schema:
-        type: integer
-    OrderBy:
-      name: orderby
-      in: query
-      required: false
-      description: Order of the requested records. Prefix a column name with '-' for descending order. A comma-separated list may be provided.
-      schema:
-        type: array
-        items:
-          type: string
-      style: form
-      explode: false
     Columns:
       name: columns
       in: query
@@ -213,13 +180,17 @@ components:
           type: string
       style: form
       explode: false
-    Limit:
-      name: limit
+    OrderBy:
+      name: orderby
       in: query
       required: false
-      description: The limit on the number of records in a request.
+      description: Order of the requested records. Prefix a column name with '-' for descending order. A comma-separated list may be provided.
       schema:
-        type: integer
+        type: array
+        items:
+          type: string
+      style: form
+      explode: false
     Search:
       name: search
       in: query
@@ -227,6 +198,20 @@ components:
       description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
       schema:
         type: string
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: The limit on the number of records in a request.
+      schema:
+        type: integer
+    PageSize:
+      name: pageSize
+      in: query
+      required: false
+      description: The maximum number of results to return per page.
+      schema:
+        type: integer
     Page:
       name: page
       in: query
@@ -234,7 +219,28 @@ components:
       description: The page number on a paginated request.
       schema:
         type: integer
+    JobID:
+      name: jobID
+      in: path
+      required: true
+      description: The job's ID.
+      schema:
+        type: integer
+    CompanyID:
+      name: companyID
+      in: path
+      required: true
+      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
+      schema:
+        type: integer
+        default: 0
   responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Missing or invalid OAuth2 Bearer token.
       content:
@@ -243,12 +249,6 @@ components:
             $ref: '#/components/schemas/Error'
     BadRequest:
       description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
       content:
         application/json:
           schema:

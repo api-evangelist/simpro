@@ -65,22 +65,46 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  schemas:
+    ScheduleListItem:
+      type: object
+      description: Modeled from the schedules resource. Verify field names against the Simpro API reference.
+      properties:
+        ID:
+          type: integer
+        Staff:
+          type: object
+          additionalProperties: true
+        Date:
+          type: string
+          format: date
+    Error:
+      type: object
+      description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+              key:
+                type: string
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid OAuth2 Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
-    CompanyID:
-      name: companyID
-      in: path
-      required: true
-      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
-      schema:
-        type: integer
-        default: 0
-    PageSize:
-      name: pageSize
-      in: query
-      required: false
-      description: The maximum number of results to return per page.
-      schema:
-        type: integer
     OrderBy:
       name: orderby
       in: query
@@ -99,11 +123,11 @@ components:
       description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
       schema:
         type: string
-    ScheduleID:
-      name: scheduleID
-      in: path
-      required: true
-      description: The schedule record's ID.
+    PageSize:
+      name: pageSize
+      in: query
+      required: false
+      description: The maximum number of results to return per page.
       schema:
         type: integer
     Page:
@@ -113,45 +137,21 @@ components:
       description: The page number on a paginated request.
       schema:
         type: integer
-  responses:
-    Unauthorized:
-      description: Missing or invalid OAuth2 Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  schemas:
-    Error:
-      type: object
-      description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              message:
-                type: string
-              key:
-                type: string
-    ScheduleListItem:
-      type: object
-      description: Modeled from the schedules resource. Verify field names against the Simpro API reference.
-      properties:
-        ID:
-          type: integer
-        Staff:
-          type: object
-          additionalProperties: true
-        Date:
-          type: string
-          format: date
+    ScheduleID:
+      name: scheduleID
+      in: path
+      required: true
+      description: The schedule record's ID.
+      schema:
+        type: integer
+    CompanyID:
+      name: companyID
+      in: path
+      required: true
+      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
+      schema:
+        type: integer
+        default: 0
   securitySchemes:
     oauth2:
       type: oauth2

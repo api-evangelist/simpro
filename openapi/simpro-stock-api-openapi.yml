@@ -67,15 +67,50 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  schemas:
+    Error:
+      type: object
+      description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message:
+                type: string
+              key:
+                type: string
+    StockListItem:
+      type: object
+      description: Modeled from the storage-device stock resource. Verify field names against the Simpro API reference.
+      properties:
+        Catalog:
+          type: object
+          additionalProperties: true
+        Quantity:
+          type: number
+  responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Missing or invalid OAuth2 Bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
-    CompanyID:
-      name: companyID
-      in: path
-      required: true
-      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
+    Search:
+      name: search
+      in: query
+      required: false
+      description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
       schema:
-        type: integer
-        default: 0
+        type: string
     PageSize:
       name: pageSize
       in: query
@@ -90,20 +125,6 @@ components:
       description: The catalog item's ID.
       schema:
         type: integer
-    StorageDeviceID:
-      name: storageDeviceID
-      in: path
-      required: true
-      description: The storage device's ID.
-      schema:
-        type: integer
-    Search:
-      name: search
-      in: query
-      required: false
-      description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
-      schema:
-        type: string
     Page:
       name: page
       in: query
@@ -111,42 +132,21 @@ components:
       description: The page number on a paginated request.
       schema:
         type: integer
-  responses:
-    Unauthorized:
-      description: Missing or invalid OAuth2 Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-  schemas:
-    StockListItem:
-      type: object
-      description: Modeled from the storage-device stock resource. Verify field names against the Simpro API reference.
-      properties:
-        Catalog:
-          type: object
-          additionalProperties: true
-        Quantity:
-          type: number
-    Error:
-      type: object
-      description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
-      properties:
-        errors:
-          type: array
-          items:
-            type: object
-            properties:
-              message:
-                type: string
-              key:
-                type: string
+    StorageDeviceID:
+      name: storageDeviceID
+      in: path
+      required: true
+      description: The storage device's ID.
+      schema:
+        type: integer
+    CompanyID:
+      name: companyID
+      in: path
+      required: true
+      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
+      schema:
+        type: integer
+        default: 0
   securitySchemes:
     oauth2:
       type: oauth2

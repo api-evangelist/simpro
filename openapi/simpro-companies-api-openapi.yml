@@ -63,53 +63,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    CompanyID:
-      name: companyID
-      in: path
-      required: true
-      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
-      schema:
-        type: integer
-        default: 0
-    OrderBy:
-      name: orderby
-      in: query
-      required: false
-      description: Order of the requested records. Prefix a column name with '-' for descending order. A comma-separated list may be provided.
-      schema:
-        type: array
-        items:
-          type: string
-      style: form
-      explode: false
-    Columns:
-      name: columns
-      in: query
-      required: false
-      description: When listing or searching a resource, specify which columns to display.
-      schema:
-        type: array
-        items:
-          type: string
-      style: form
-      explode: false
-    Search:
-      name: search
-      in: query
-      required: false
-      description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
-      schema:
-        type: string
   schemas:
-    CompanyListItem:
-      type: object
-      description: Confirmed fields from the companies list response.
-      properties:
-        ID:
-          type: integer
-        Name:
-          type: string
     Error:
       type: object
       description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
@@ -123,6 +77,52 @@ components:
                 type: string
               key:
                 type: string
+    CompanyListItem:
+      type: object
+      description: Confirmed fields from the companies list response.
+      properties:
+        ID:
+          type: integer
+        Name:
+          type: string
+  parameters:
+    Columns:
+      name: columns
+      in: query
+      required: false
+      description: When listing or searching a resource, specify which columns to display.
+      schema:
+        type: array
+        items:
+          type: string
+      style: form
+      explode: false
+    OrderBy:
+      name: orderby
+      in: query
+      required: false
+      description: Order of the requested records. Prefix a column name with '-' for descending order. A comma-separated list may be provided.
+      schema:
+        type: array
+        items:
+          type: string
+      style: form
+      explode: false
+    Search:
+      name: search
+      in: query
+      required: false
+      description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
+      schema:
+        type: string
+    CompanyID:
+      name: companyID
+      in: path
+      required: true
+      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
+      schema:
+        type: integer
+        default: 0
   responses:
     NotFound:
       description: The requested resource was not found.

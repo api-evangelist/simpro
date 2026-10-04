@@ -123,21 +123,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   parameters:
-    CompanyID:
-      name: companyID
-      in: path
-      required: true
-      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
-      schema:
-        type: integer
-        default: 0
-    PageSize:
-      name: pageSize
-      in: query
-      required: false
-      description: The maximum number of results to return per page.
-      schema:
-        type: integer
     CostCenterID:
       name: costCenterID
       in: path
@@ -152,6 +137,13 @@ components:
       description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
       schema:
         type: string
+    PageSize:
+      name: pageSize
+      in: query
+      required: false
+      description: The maximum number of results to return per page.
+      schema:
+        type: integer
     Page:
       name: page
       in: query
@@ -159,15 +151,15 @@ components:
       description: The page number on a paginated request.
       schema:
         type: integer
+    CompanyID:
+      name: companyID
+      in: path
+      required: true
+      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
+      schema:
+        type: integer
+        default: 0
   schemas:
-    CostCenterListItem:
-      type: object
-      description: Modeled from the cost centers resource. Verify field names against the Simpro API reference.
-      properties:
-        ID:
-          type: integer
-        Name:
-          type: string
     Error:
       type: object
       description: Modeled error envelope. Verify the exact shape against the Simpro API reference.
@@ -187,7 +179,21 @@ components:
       properties:
         Name:
           type: string
+    CostCenterListItem:
+      type: object
+      description: Modeled from the cost centers resource. Verify field names against the Simpro API reference.
+      properties:
+        ID:
+          type: integer
+        Name:
+          type: string
   responses:
+    NotFound:
+      description: The requested resource was not found.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Missing or invalid OAuth2 Bearer token.
       content:
@@ -196,12 +202,6 @@ components:
             $ref: '#/components/schemas/Error'
     BadRequest:
       description: The request payload failed validation.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: The requested resource was not found.
       content:
         application/json:
           schema:
