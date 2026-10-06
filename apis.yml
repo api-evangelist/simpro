@@ -62,7 +62,7 @@ tags_raw:
 - SaaS
 - Contractors
 created: '2026-07-12'
-modified: '2026-07-12'
+modified: '2026-10-06'
 specificationVersion: '0.23'
 apis:
 - aid: simpro:simpro-companies-api
@@ -228,6 +228,8 @@ apis:
   - type: APIReference
     url: https://developer.simprogroup.com/apidoc/
 common:
+- url: https://www.simprogroup.com/blog
+  type: Blog
 - type: CapabilityMap
   url: capabilities/simpro-capability-edges.yml
   name: Simpro Business Capability Map
