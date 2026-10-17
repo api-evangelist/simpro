@@ -123,13 +123,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   parameters:
-    CostCenterID:
-      name: costCenterID
-      in: path
-      required: true
-      description: The cost center's ID.
-      schema:
-        type: integer
     Search:
       name: search
       in: query
@@ -137,6 +130,21 @@ components:
       description: Search filter. With search=all the result must match all provided fields; with search=any it may match any of them.
       schema:
         type: string
+    CostCenterID:
+      name: costCenterID
+      in: path
+      required: true
+      description: The cost center's ID.
+      schema:
+        type: integer
+    CompanyID:
+      name: companyID
+      in: path
+      required: true
+      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
+      schema:
+        type: integer
+        default: 0
     PageSize:
       name: pageSize
       in: query
@@ -151,14 +159,6 @@ components:
       description: The page number on a paginated request.
       schema:
         type: integer
-    CompanyID:
-      name: companyID
-      in: path
-      required: true
-      description: The company ID. A build with Multi-company setup may have companyID >= 0; other builds use 0 by default.
-      schema:
-        type: integer
-        default: 0
   schemas:
     Error:
       type: object
@@ -188,6 +188,12 @@ components:
         Name:
           type: string
   responses:
+    BadRequest:
+      description: The request payload failed validation.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     NotFound:
       description: The requested resource was not found.
       content:
@@ -196,12 +202,6 @@ components:
             $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Missing or invalid OAuth2 Bearer token.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    BadRequest:
-      description: The request payload failed validation.
       content:
         application/json:
           schema:
