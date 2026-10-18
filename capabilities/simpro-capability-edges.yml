@@ -3,6 +3,7 @@ provider: Simpro
 generated_by: planning/capability-mapping/scripts/classify_capabilities.py
 model: claude-opus-5
 frame:
+- Manufacturing & Industrial
 - Software & Technology
 min_confidence: 0.7
 capability_model:
@@ -11,7 +12,7 @@ capability_model:
   attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
     CC BY 4.0
   notice: NOTICE
-edge_count: 6
+edge_count: 8
 edges:
 - tag: Customers
   spec_file: simpro-customers-api-openapi.yml
@@ -37,20 +38,31 @@ edges:
   capability_id: BC-500.30
   capability_id_l1: BC-500
   capability_name: Purchase Order Management
-  confidence: 0.82
-  evidence: POST /companies/{companyID}/vendorOrders/  createVendorOrder  Create a vendor order
-  reason: Vendor orders are purchase orders raised to suppliers, consistent with the vendor description
-    covering 'purchasing'. Full CRUD on the order object maps to Purchase Order Management.
+  confidence: 0.85
+  evidence: POST /companies/{companyID}/vendorOrders/ createVendorOrder "Create a vendor order"; vendor
+    scope includes "purchasing"
+  reason: Vendor orders are purchase orders raised to suppliers; create/update/delete lifecycle maps to
+    Purchase Order Management.
 - tag: Invoices
   spec_file: simpro-invoices-api-openapi.yml
   capability_id: BC-200.30
   capability_id_l1: BC-200
   capability_name: Accounts Receivable Management
-  confidence: 0.78
-  evidence: POST /companies/{companyID}/invoices/ createInvoice Create an invoice
-  reason: Creation and maintenance of customer invoices in a field service/trade platform is customer
-    invoicing, the core of Accounts Receivable Management. Slight ambiguity as only generic invoice CRUD
-    is exposed.
+  confidence: 0.8
+  evidence: POST /companies/{companyID}/invoices/ "Create an invoice"; schema InvoiceInput
+  reason: Customer invoicing in a field-service platform whose workflow ends in "invoicing" — accounts
+    receivable / customer invoicing.
+- tag: Jobs
+  spec_file: simpro-jobs-api-openapi.yml
+  capability_id: BC-1050
+  capability_id_l1: BC-1050
+  capability_name: Field Service Management
+  confidence: 0.75
+  evidence: '"Create a job", "Update a job" in a platform covering "estimating, quoting, job management,
+    scheduling and dispatch, asset maintenance"'
+  reason: Jobs are the field-service work records for trade contractors, so Field Service Management is
+    the right L1; the CRUD surface alone does not distinguish request capture, dispatch, or execution,
+    so no L2.
 - tag: Stock
   spec_file: simpro-stock-api-openapi.yml
   capability_id: BC-530
@@ -72,3 +84,13 @@ edges:
   reason: CRUD over cost centres under the accounts setup area — maintenance of cost objects used for
     cost allocation, i.e. Cost Accounting Management. Thin surface (setup master data only) so moderate
     confidence.
+- tag: Schedules
+  spec_file: simpro-schedules-api-openapi.yml
+  capability_id: BC-1050.20
+  capability_id_l1: BC-1050
+  capability_name: Service Dispatch Management
+  confidence: 0.7
+  evidence: GET /companies/{companyID}/schedules/ listSchedules "List all schedules"; vendor covers "scheduling
+    and dispatch" for trades contractors
+  reason: Schedules in this field-service platform represent technician job scheduling/dispatch records;
+    read-only surface so sub-capability inferred from vendor scope, hence moderate confidence.
