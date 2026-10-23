@@ -40,7 +40,7 @@ accessModel:
   method: derived
 image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/simpro.png
 tags:
-- Field Service Management
+- Field Service
 - Trade
 - Job Management
 - Project Management
