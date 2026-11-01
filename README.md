@@ -1,4 +1,4 @@
-# Simpro (simpro)
+# Simpro
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,199 +64,137 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Simpro (simPRO) is field service management and project/business management software for the trades - electrical, plumbing, HVAC, security, fire, and other contractors. It covers estimating, quoting, job management, scheduling and dispatch, asset maintenance, inventory and catalog, purchasing, timesheets, and invoicing.
+Simpro (simPRO) is field service management and project/business management software for the trades - electrical, plumbing, HVAC, security, fire, and other contractors. It covers the full workflow of estimating, quoting, job management, scheduling and dispatch, asset maintenance, inventory and catalog, purchasing, timesheets, and invoicing. The Simpro REST API v1.0 exposes these resources over HTTPS, but it is not a shared public API - each API runs on the customer's own Simpro Premium build (host https://your-build.simprosuite.com) and is authenticated with OAuth2 credentials provisioned by that build's administrator. Resources are nested under a company at /api/v1.0/companies/{companyID}/... where companyID is 0 on single-company builds.
 
-## Access Model (Read This First)
+**Areas:** Field Service · Trade · Job Management · Project Management · Scheduling · Inventory · Estimating · Workforce · Software-as-a-Service · Contractors
 
-**Simpro's REST API v1.0 is not a shared, self-service public API.** It is a capability of a Simpro Premium subscription, and every point of access is scoped to a specific customer build:
+## Simpro on APIs.io
 
-- **Per-build host.** The API is served from the customer's own build subdomain - `https://{build}.simprosuite.com/api/v1.0` - the same domain used to log in to the Simpro staff portal. There is no single global API endpoint.
-- **Customer-provisioned credentials.** Authentication is OAuth2. An account administrator registers an API application on the build and issues client credentials; the integration then requests access tokens from `https://{build}.simprosuite.com/oauth2/token` and sends them as `Authorization: Bearer ACCESS_TOKEN`. Both the client credentials and authorization code grants are supported.
-- **Company-scoped resources.** Almost every resource is nested under a company: `/api/v1.0/companies/{companyID}/...`, where `companyID` is `0` on single-company builds and `>= 0` on multi-company builds.
-- **Rate limit.** 10 API calls per second, scoped to the whole build (shared across companies and integrations). Over-limit requests return HTTP 429.
+Everything profiled for Simpro is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/simpro/](https://apis.io/providers/simpro/)** — or go straight to one of the APIs or properties below.
 
-The catalog entry here models a representative subset of the API. The full published reference spans 300+ resource types.
+### APIs (11)
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/simpro/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/simpro/refs/heads/main/apis.yml)
+- [Simpro Companies API](https://apis.io/apis/simpro/simpro-companies-api/) — Company information on the build (multi-company aware).
+- [Simpro Cost Centers API](https://apis.io/apis/simpro/simpro-cost-centers-api/) — Accounting cost center setup.
+- [Simpro Customers API](https://apis.io/apis/simpro/simpro-customers-api/) — Company and individual customers that receive invoices.
+- [Simpro Invoices API](https://apis.io/apis/simpro/simpro-invoices-api/) — Customer invoicing.
+- [Simpro Jobs API](https://apis.io/apis/simpro/simpro-jobs-api/) — Job lifecycle - scheduling, stock, assets, forms, and billing.
+- [Simpro Quotes API](https://apis.io/apis/simpro/simpro-quotes-api/) — Quote creation and management.
+- [Simpro Schedules API](https://apis.io/apis/simpro/simpro-schedules-api/) — Resource and staff scheduling records.
+- [Simpro Sites API](https://apis.io/apis/simpro/simpro-sites-api/) — Customer sites and service locations.
+- [Simpro Stock API](https://apis.io/apis/simpro/simpro-stock-api/) — Inventory held on storage devices.
+- [Simpro Vendor Orders API](https://apis.io/apis/simpro/simpro-vendor-orders-api/) — Purchase orders raised to vendors/suppliers.
+- [Simpro Webhooks API](https://apis.io/apis/simpro/simpro-webhooks-api/) — Webhook subscriptions for build event notifications.
 
-## Tags
+### Published properties
 
-- Field Service Management
-- Trades
-- Job Management
-- Project Management
-- Scheduling
-- Inventory
-- Estimating
-- Workforce
-- SaaS
-- Contractors
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-## Timestamps
+#### Agentic access (1)
 
-- **Created:** 2026-07-12
-- **Modified:** 2026-07-12
+Which operations an agent can call, which act, and which need a human in the loop.
 
-## APIs
+- [Simpro Agentic Access](https://apis.io/agentic-access/simpro/simpro-agentic-access/)
 
-All APIs share the per-build base URL `https://{build}.simprosuite.com/api/v1.0` and are documented at the [Simpro Developer Center](https://developer.simprogroup.com/apidoc/).
+#### Collections (12)
 
-### Simpro Companies API
+Postman and Open Collection request collections.
 
-List and retrieve the companies configured on a Simpro build. The company is the top-level scope for nearly every other resource.
+- [Simpro REST API](https://apis.io/collections/simpro/open-simpro/)
+- [Simpro REST Companies API](https://apis.io/collections/simpro/open-simpro-companies-api/)
+- [Simpro REST Companies Cost Centers API](https://apis.io/collections/simpro/open-simpro-cost-centers-api/)
+- [Simpro REST Companies Customers API](https://apis.io/collections/simpro/open-simpro-customers-api/)
+- [Simpro REST Companies Invoices API](https://apis.io/collections/simpro/open-simpro-invoices-api/)
+- [Simpro REST Companies Jobs API](https://apis.io/collections/simpro/open-simpro-jobs-api/)
+- [Simpro REST Companies Quotes API](https://apis.io/collections/simpro/open-simpro-quotes-api/)
+- [Simpro REST Companies Schedules API](https://apis.io/collections/simpro/open-simpro-schedules-api/)
+- [Simpro REST Companies Sites API](https://apis.io/collections/simpro/open-simpro-sites-api/)
+- [Simpro REST Companies Stock API](https://apis.io/collections/simpro/open-simpro-stock-api/)
+- [Simpro REST Companies Vendor Orders API](https://apis.io/collections/simpro/open-simpro-vendor-orders-api/)
+- [Simpro REST Companies Webhooks API](https://apis.io/collections/simpro/open-simpro-webhooks-api/)
 
-- **Human URL:** [https://developer.simprogroup.com/apidoc/](https://developer.simprogroup.com/apidoc/)
-- **Base URL:** `https://{build}.simprosuite.com/api/v1.0`
+#### Security (2)
 
-#### Tags
+Authentication, trust centre, and vulnerability disclosure.
 
-- Companies
-- Configuration
+- [Simpro Authentication](https://apis.io/security/simpro/simpro-authentication/)
+- [Simpro Domain Security](https://apis.io/security/simpro/simpro-domain-security/)
 
-#### Properties
+#### Plans and pricing (1)
 
-- [Documentation](https://developer.simprogroup.com/)
-- [API Reference](https://developer.simprogroup.com/apidoc/)
-- [OpenAPI](openapi/simpro-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/simpro.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/simpro.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+Published plans, tiers and prices.
 
-### Simpro Customers API
+- [Simpro Plans Pricing](https://apis.io/plans/simpro/simpro-plans-pricing/)
 
-Create, list, retrieve, update, and delete company (organization) and individual customers - the entities that receive invoices for work performed.
+#### Rate limits (1)
 
-- **Human URL:** [https://developer.simprogroup.com/apidoc/](https://developer.simprogroup.com/apidoc/)
-- **Base URL:** `https://{build}.simprosuite.com/api/v1.0`
+Published request limits.
 
-#### Tags
+- [Simpro Rate Limits](https://apis.io/rate-limits/simpro/simpro-rate-limits/)
 
-- Customers
-- CRM
+#### FinOps (1)
 
-### Simpro Sites API
+What the API costs to run, by operation.
 
-Manage customer sites and service locations that jobs, quotes, and assets are associated with.
+- [Simpro Finops](https://apis.io/finops/simpro/simpro-finops/)
 
-- **Human URL:** [https://developer.simprogroup.com/apidoc/](https://developer.simprogroup.com/apidoc/)
-- **Base URL:** `https://{build}.simprosuite.com/api/v1.0`
+## Where to find this API
 
-#### Tags
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-- Sites
-- Locations
-
-### Simpro Jobs API
-
-Create, list, retrieve, update, and delete jobs - the core unit of field service work, tracking scheduling, stock, vendor orders, contractor work orders, customer assets, forms, and totals.
-
-- **Human URL:** [https://developer.simprogroup.com/apidoc/](https://developer.simprogroup.com/apidoc/)
-- **Base URL:** `https://{build}.simprosuite.com/api/v1.0`
-
-#### Tags
-
-- Jobs
-- Work Orders
-- Field Service
-
-### Simpro Quotes API
-
-Create, list, retrieve, update, and delete quotes and estimates, including their totals. Quotes convert to jobs within Simpro.
-
-- **Human URL:** [https://developer.simprogroup.com/apidoc/](https://developer.simprogroup.com/apidoc/)
-- **Base URL:** `https://{build}.simprosuite.com/api/v1.0`
-
-#### Tags
-
-- Quotes
-- Estimating
-
-### Simpro Invoices API
-
-Create, list, retrieve, update, and delete customer invoices raised from jobs and projects.
-
-- **Human URL:** [https://developer.simprogroup.com/apidoc/](https://developer.simprogroup.com/apidoc/)
-- **Base URL:** `https://{build}.simprosuite.com/api/v1.0`
-
-#### Tags
-
-- Invoices
-- Billing
-
-### Simpro Schedules API
-
-List and retrieve schedule records - the assignments of staff to jobs and activities that drive field workforce planning.
-
-- **Human URL:** [https://developer.simprogroup.com/apidoc/](https://developer.simprogroup.com/apidoc/)
-- **Base URL:** `https://{build}.simprosuite.com/api/v1.0`
-
-#### Tags
-
-- Scheduling
-- Dispatch
-
-### Simpro Vendor Orders API
-
-Create, list, retrieve, update, and delete vendor (purchase) orders raised to suppliers for materials and stock.
-
-- **Human URL:** [https://developer.simprogroup.com/apidoc/](https://developer.simprogroup.com/apidoc/)
-- **Base URL:** `https://{build}.simprosuite.com/api/v1.0`
-
-#### Tags
-
-- Purchasing
-- Vendor Orders
-
-### Simpro Cost Centers API
-
-Manage accounting cost centers under company setup that job and project financials are allocated against.
-
-- **Human URL:** [https://developer.simprogroup.com/apidoc/](https://developer.simprogroup.com/apidoc/)
-- **Base URL:** `https://{build}.simprosuite.com/api/v1.0`
-
-#### Tags
-
-- Accounting
-- Cost Centers
-- Setup
-
-### Simpro Stock API
-
-List and retrieve catalog stock items held on storage devices (warehouses, vans, and other locations).
-
-- **Human URL:** [https://developer.simprogroup.com/apidoc/](https://developer.simprogroup.com/apidoc/)
-- **Base URL:** `https://{build}.simprosuite.com/api/v1.0`
-
-#### Tags
-
-- Inventory
-- Stock
-- Catalog
-
-### Simpro Webhooks API
-
-Create, list, retrieve, update, and delete webhook subscriptions. Simpro POSTs HTTPS callbacks to your endpoint on subscribed build events - server-to-endpoint HTTP, not a streaming or WebSocket transport.
-
-- **Human URL:** [https://developer.simprogroup.com/apidoc/](https://developer.simprogroup.com/apidoc/)
-- **Base URL:** `https://{build}.simprosuite.com/api/v1.0`
-
-#### Tags
-
-- Webhooks
-- Events
-- Notifications
-
-## Common Properties
-
-- [Domain Security](security/simpro-domain-security.yml)
-- [Authentication](authentication/simpro-authentication.yml)
-- [LinkedIn](https://www.linkedin.com/company/simpro-software)
 - [Website](https://www.simprogroup.com/)
 - [Documentation](https://developer.simprogroup.com/)
-- [Plans](plans/simpro-plans-pricing.yml)
-- [Rate Limits](rate-limits/simpro-rate-limits.yml)
-- [Fin Ops](finops/simpro-finops.yml)
+- [Blog](https://www.simprogroup.com/blog)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 15.0** — emerging · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 12.1 |
+| Contract governance | 0.0 |
+| Operational transparency | 5.3 |
+| Developer ergonomics | 21.4 |
+| Access clarity | 7.9 |
+
+**Agent readiness 22.9** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | negotiable (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | — |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | documented (partial credit) |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 11.8** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/simpro/](https://apis.io/providers/simpro/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Simpro: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/simpro/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
